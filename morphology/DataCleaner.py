@@ -1,20 +1,19 @@
-import sys
-
 from morphology.Symbols import Symbols
 import Levenshtein as LevenshteinDistance
 import os
+import sys
+
 
 class DataCleaner:
-    def __init__(self, filename):
-        self.filename = filename
-        self.file = open(os.path.join(sys.path[0], filename), "r")
+    def __init__(self, filename: str):
         # Open file for reading only
+        self.file = open(os.path.join(sys.path[0], filename), "r")
         self.lines = self.file.readlines()
         self.s = Symbols()
 
-    def reformat(self, filename):
+    def reformat(self, filename: str):
         """Method Used to Clean the Data contained in the original files, and to generate the surface segmentation"""
-        new_file = open(os.path.join(sys.path[0], filename+".conll"), "w")
+        new_file = open(os.path.join(sys.path[0], filename + ".conll"), "w")
         # open new file for writing
         first_line = True
         for line in self.lines:
@@ -56,12 +55,12 @@ class DataCleaner:
         new_file.close()
 
 
-def normaliseOrthographicForm(orthgraphic: str):
+def normaliseOrthographicForm(orthographic: str):
     """Method to normalise the format of the orthographic form to make using it as input easier for the CRF"""
     # Formats orthographic form into following format
     # aa[bb]cc[dd]
     str2_arr = []
-    for char in orthgraphic:
+    for char in orthographic:
         if char == '$' or char == '-':
             continue
         else:
@@ -216,10 +215,10 @@ def generateSurfaceSegmentation(word: str, orthographic_form: str):
 languages = ["zulu", "swati", "ndebele", "xhosa"]
 
 for lang in languages:
-    print("Language: "+lang)
+    print("Language: " + lang)
     # Add dev / validation dataset
     inputFile = DataCleaner(lang + ".train.conll")
     inputFile.reformat(lang + ".clean.train")
     inputFile = DataCleaner(lang + ".test.conll")
     inputFile.reformat(lang + ".clean.test")
-    print(lang+" cleaning complete.\n#############################################")
+    print(lang + " cleaning complete.\n#############################################")

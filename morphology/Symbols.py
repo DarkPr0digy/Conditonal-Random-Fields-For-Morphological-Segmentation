@@ -19,6 +19,9 @@ class Symbols:
         self.arr.append(["-", "_", "PUNCT", "_"])
         self.arr.append(["!", "_", "PUNCT", "_"])
         self.arr.append(["?", "_", "PUNCT", "_"])
+        self.arr.append(["*", "_", "PUNCT", "_"])
+        self.arr.append(["&", "_", "PUNCT", "_"])
+        self.arr.append(["(iziqu)/", "_", "PUNCT", "_"])
 
     def inArr(self, symbol):
         """Method to check if a given character is in this alphabet of symbols"""

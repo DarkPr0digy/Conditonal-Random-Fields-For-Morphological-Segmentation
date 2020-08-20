@@ -41,10 +41,10 @@ languages = ["zulu", "swati", "ndebele", "xhosa"]
 
 for lang in languages:
     print("Language: " + lang)
-    file_name = lang + ".clean.train.conll"
+    file_name = lang + '/' + lang + ".clean.train.conll"
     # print(file_name)
     inputFile = ValidationSet(file_name)
-    file_name = lang + ".clean.dev.conll"
+    file_name = lang + '/' + lang + ".clean.dev.conll"
     # print(file_name)
     inputFile.create_validation_set(file_name)
     print(lang + " validation set complete.\n#############################################")

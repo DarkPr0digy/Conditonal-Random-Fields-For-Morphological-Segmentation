@@ -118,3 +118,4 @@ venv/share/jupyter/nbextensions/jupyter-js-widgets/extension.js
 *.png
 *.json
 venv/*
+morphology/.DS_Store

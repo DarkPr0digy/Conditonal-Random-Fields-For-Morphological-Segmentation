@@ -1,4 +1,8 @@
 import sklearn_crfsuite
+import sklearn
+from sklearn.metrics import precision_score, f1_score, recall_score
+from sklearn_crfsuite import metrics
+from sklearn.preprocessing import MultiLabelBinarizer
 import time
 
 
@@ -48,6 +52,7 @@ class BaselineCRF:
                 # Key is word and value is segmented form
                 # print(content)
                 dictionaries[counter][content[0]] = label
+
             input_file.close()
             counter += 1
 
@@ -111,10 +116,10 @@ class BaselineCRF:
         best_max_iteration = 80
         best_algo = 'ap'
 
-        """a, b, c = surface_segment_data_preparation(training_data)
+        a, b, c = surface_segment_data_preparation(training_data)
         print("X_Training: " + str(a[len(a) - 1]) + "\n################################")
         print("Y_training: " + str(b[len(b) - 1]) + "\n################################")
-        print("Words Training: " + str(c[len(c) - 1]) + "\n############################")"""
+        print("Words Training: " + str(c[len(c) - 1]) + "\n############################")
 
         X_training, Y_training, words_training = surface_segment_data_preparation(training_data)
         X_dev, Y_dev, words_dev = surface_segment_data_preparation(dev_data)
@@ -125,71 +130,93 @@ class BaselineCRF:
         Y_predict = crf.predict(X_test)
         return Y_predict, Y_test
 
-    def orthographic_labelled_segmentation(self):
-        """This Method is used to perform the orthographic labelled segmentation"""
-        # Collect the Data
-        ##################################################
+    def surface_labelled_segmentation(self):
+        """This method is used to label the surface segments"""
         tic = time.perf_counter()
+
+        # Collect the data
+        ###########################################
         training_data, dev_data, test_data = {}, {}, {}
         dictionaries = (training_data, dev_data, test_data)
         counter = 0
-
         for file in self.input_files:
             input_file = open(file, 'r')
             for line in input_file.readlines():
                 content = line.rstrip('\n').split(" | ")
+                labels = '-'.join(get_labels(content[2]))
+                segments = removeLabels(content[2])
 
-                # Just Orthographic form
-                ##############################################
-                dictionaries[counter][content[0]] = [content[1], removeLabels(content[2])]
-                ##############################################
+                # dictionaries[counter][content[0]] = [segments, labels] # word:[[segments],[labels]]
+                dictionaries[counter][segments] = labels  # segments : labels
             input_file.close()
             counter += 1
 
         toc = time.perf_counter()
-        print("Data Collected in " + str(tic - toc.__round__(4)) + " seconds")
+        print("Data Collected in " + str(tic - toc.__round__(2)))
 
-        # Run the CRF
-        ################################################################
+        # Evaluate Model On the Test Set Using Optimised Model
+        #######################################################
+
+        a, b, c = surface_labelled_data_preparation(training_data)
+        print("X_Training: " + str(a[len(a) - 1]) + "\n################################")
+        print("Y_training: " + str(b[len(b) - 1]) + "\n################################")
+        print("Words Training: " + str(c[len(c) - 1]) + "\n############################")
+
         best_delta = 8
         best_epsilon = 0.0000001
         best_max_iteration = 80
         best_algo = 'ap'
 
-        X_training, Y_training, words_training = labelled_orthographic_data_preparation(training_data)
-        X_dev, Y_dev, words_dev = labelled_orthographic_data_preparation(dev_data)
-        X_test, Y_test, words_test = labelled_orthographic_data_preparation(test_data)
-        crf = sklearn_crfsuite.CRF(algorithm=best_algo, epsilon=best_epsilon, max_iterations=best_max_iteration)
-        crf.fit(X_training, Y_training, X_dev=X_dev, y_dev=Y_dev)
+        X_training, Y_training, words_training = surface_labelled_data_preparation(training_data)
+        X_dev, Y_dev, words_dev = surface_labelled_data_preparation(dev_data)
+        X_test, Y_test, words_test = surface_labelled_data_preparation(test_data)
+        print("Data Processed")
 
+        # crf = sklearn_crfsuite.CRF(algorithm=best_algo, epsilon=best_epsilon, max_iterations=best_max_iteration)
+        crf = sklearn_crfsuite.CRF(
+            algorithm='lbfgs',
+            c1=0.1,
+            c2=0.1,
+            max_iterations=100,
+            all_possible_transitions=True
+        )
+        print("CRF Initialized")
+        #crf.fit(X_training, Y_training, X_dev=X_dev, y_dev=Y_dev)
+        crf.fit(X_training, Y_training)
+        print("Data Fitted")
         Y_predict = crf.predict(X_test)
-
         print(Y_predict[0])
-
-        H, I, D = 0, 0, 0
-        for j in range(len(Y_test)):
-            for i in range(len(Y_test[j])):
-                if Y_test[j][i] == 'E' or Y_test[j][i] == 'S':
-                    if Y_test[j][i] == Y_predict[j][i]:
-                        H += 1
-                    else:
-                        D += 1
-                else:
-                    if Y_predict[j][i] == 'E' or Y_predict[j][i] == 'S':
-                        I += 1
-        precision = float(H) / (H + I)
-        recall = float(H) / (H + D)
-        f1 = (2 * precision * recall) / (precision + recall)
-        print('\nEvaluation on the Test set\n')
-        print('delta = ' + str(best_delta) + '\tepsilon = ' + str(
-            best_epsilon) + '\tmax_iter = ' + str(best_max_iteration) + '\tBest Algo = ' + best_algo)
-        print('Precision = ' + str(precision))
-        print('Recall = ' + str(recall))
-        print('F1-score = ' + str(f1))
-        print(str(round(precision, 3)) + '\t' + str(round(recall, 3)) + '\t' + str(round(f1, 3)))
+        print(Y_test[0])
+        labels = list(crf.classes_)
+        sorted_labels = sorted(labels)
+        return Y_predict, Y_test, sorted_labels
 
     def results(self, Y_predict, Y_test):
-        best_delta = 8
+        # print(metrics.flat_accuracy_score(Y_test, Y_predict))
+        # print(metrics.flat_precision_score(Y_test, Y_predict))
+        # print(metrics.flat_f1_score(Y_test, Y_predict))
+
+        test = MultiLabelBinarizer().fit_transform(Y_test)
+        predicted = MultiLabelBinarizer().fit_transform(Y_predict)
+
+        #print('Weighted:')
+        #print("Recall: " + str(recall_score(test, predicted, average='weighted')))
+        #print("Precision: " + str(precision_score(test, predicted, average='weighted')))
+        #print("F1 Score: " + str(f1_score(test, predicted, average='weighted')))
+        '''print('Micro:')
+        print("Recall: " + str(recall_score(test, predicted, average='micro')))
+        print("Precision: " + str(precision_score(test, predicted, average='micro')))
+        print("F1 Score: " + str(f1_score(test, predicted, average='micro')))
+        print('Macro:')
+        print("Recall: " + str(recall_score(test, predicted, average='macro')))
+        print("Precision: " + str(precision_score(test, predicted, average='macro')))
+        print("F1 Score: " + str(f1_score(test, predicted, average='macro')))'''
+        print('Samples: ')
+        print("Recall: " + str(recall_score(test, predicted, average='samples')))
+        print("Precision: " + str(precision_score(test, predicted, average='samples')))
+        print("F1 Score: " + str(f1_score(test, predicted, average='samples')))
+
+        '''best_delta = 8
         best_epsilon = 0.0000001
         best_max_iteration = 80
         best_algo = 'ap'
@@ -221,290 +248,33 @@ class BaselineCRF:
         print('Precision = ' + str(precision))
         print('Recall = ' + str(recall))
         print('F1-score = ' + str(f1))
-        print(str(round(precision, 3)) + '\t' + str(round(recall, 3)) + '\t' + str(round(f1, 3)))
+        print(str(round(precision, 3)) + '\t' + str(round(recall, 3)) + '\t' + str(round(f1, 3)))'''
 
-        """############################################################################################
+    def results_labelled(self, Y_predict, Y_test, labels):
 
-        crf = sklearn_crfsuite.CRF(algorithm=best_algo, epsilon=best_epsilon, max_iterations=best_max_iteration,
-                                   all_possible_transitions=True, all_possible_states=True)
-        crf.fit(X_training, Y_training, X_dev=X_dev, y_dev=Y_dev)
+        test = MultiLabelBinarizer().fit_transform(Y_test)
+        predicted = MultiLabelBinarizer().fit_transform(Y_predict)
 
-        Y_predict = crf.predict(X_test)
-
-        print(Y_predict[0])
-
-        true_positives, false_positives, false_negatives = 0, 0, 0
-        for j in range(len(Y_test)):
-            for i in range(len(Y_test[j])):
-                if Y_test[j][i] == 'E' or Y_test[j][i] == 'S':
-                    if Y_test[j][i] == Y_predict[j][i]:
-                        true_positives += 1
-                    else:
-                        false_negatives += 1
-                else:
-                    if Y_predict[j][i] == 'E' or Y_predict[j][i] == 'S':
-                        false_positives += 1
-        precision = float(true_positives) / (true_positives + false_positives)
-        recall = float(true_positives) / (true_positives + false_negatives)
-        f1 = (2 * precision * recall) / (precision + recall)
-        print('\nEvaluation on the Test set\n')
-        print('delta = ' + str(best_delta) + '\tepsilon = ' + str(
-            best_epsilon) + '\tmax_iter = ' + str(best_max_iteration) + '\tBest Algo = ' + best_algo)
-        print('Precision = ' + str(precision))
-        print('Recall = ' + str(recall))
-        print('F1-score = ' + str(f1))
-        print(str(round(precision, 3)) + '\t' + str(round(recall, 3)) + '\t' + str(round(f1, 3)))
-
-        ############################################################################################
-
-        crf = sklearn_crfsuite.CRF(algorithm=best_algo, epsilon=best_epsilon, max_iterations=best_max_iteration,
-                                   all_possible_states=True)
-        crf.fit(X_training, Y_training, X_dev=X_dev, y_dev=Y_dev)
-
-        Y_predict = crf.predict(X_test)
-
-        print(Y_predict[0])
-
-        true_positives, false_positives, false_negatives = 0, 0, 0
-        for j in range(len(Y_test)):
-            for i in range(len(Y_test[j])):
-                if Y_test[j][i] == 'E' or Y_test[j][i] == 'S':
-                    if Y_test[j][i] == Y_predict[j][i]:
-                        true_positives += 1
-                    else:
-                        false_negatives += 1
-                else:
-                    if Y_predict[j][i] == 'E' or Y_predict[j][i] == 'S':
-                        false_positives += 1
-        precision = float(true_positives) / (true_positives + false_positives)
-        recall = float(true_positives) / (true_positives + false_negatives)
-        f1 = (2 * precision * recall) / (precision + recall)
-        print('\nEvaluation on the Test set\n')
-        print('delta = ' + str(best_delta) + '\tepsilon = ' + str(
-            best_epsilon) + '\tmax_iter = ' + str(best_max_iteration) + '\tBest Algo = ' + best_algo)
-        print('Precision = ' + str(precision))
-        print('Recall = ' + str(recall))
-        print('F1-score = ' + str(f1))
-        print(str(round(precision, 3)) + '\t' + str(round(recall, 3)) + '\t' + str(round(f1, 3)))
-
-        ############################################################################################
-
-        crf = sklearn_crfsuite.CRF(algorithm=best_algo, epsilon=best_epsilon, max_iterations=best_max_iteration,
-                                   all_possible_transitions=True)
-        crf.fit(X_training, Y_training, X_dev=X_dev, y_dev=Y_dev)
-
-        Y_predict = crf.predict(X_test)
-
-        print(Y_predict[0])
-
-        true_positives, false_positives, false_negatives = 0, 0, 0
-        for j in range(len(Y_test)):
-            for i in range(len(Y_test[j])):
-                if Y_test[j][i] == 'E' or Y_test[j][i] == 'S':
-                    if Y_test[j][i] == Y_predict[j][i]:
-                        true_positives += 1
-                    else:
-                        false_negatives += 1
-                else:
-                    if Y_predict[j][i] == 'E' or Y_predict[j][i] == 'S':
-                        false_positives += 1
-        precision = float(true_positives) / (true_positives + false_positives)
-        recall = float(true_positives) / (true_positives + false_negatives)
-        f1 = (2 * precision * recall) / (precision + recall)
-        print('\nEvaluation on the Test set\n')
-        print('delta = ' + str(best_delta) + '\tepsilon = ' + str(
-            best_epsilon) + '\tmax_iter = ' + str(best_max_iteration) + '\tBest Algo = ' + best_algo)
-        print('Precision = ' + str(precision))
-        print('Recall = ' + str(recall))
-        print('F1-score = ' + str(f1))
-        print(str(round(precision, 3)) + '\t' + str(round(recall, 3)) + '\t' + str(round(f1, 3)))
-
-        ############################################################################################
-        crf = sklearn_crfsuite.CRF(algorithm='ap', epsilon=best_epsilon)
-        crf.fit(X_training, Y_training, X_dev=X_dev, y_dev=Y_dev)
-
-        Y_predict = crf.predict(X_test)
-
-        print("No Max Iterations")
-
-        true_positives, false_positives, false_negatives = 0, 0, 0
-        for j in range(len(Y_test)):
-            for i in range(len(Y_test[j])):
-                if Y_test[j][i] == 'E' or Y_test[j][i] == 'S':
-                    if Y_test[j][i] == Y_predict[j][i]:
-                        true_positives += 1
-                    else:
-                        false_negatives += 1
-                else:
-                    if Y_predict[j][i] == 'E' or Y_predict[j][i] == 'S':
-                        false_positives += 1
-        precision = float(true_positives) / (true_positives + false_positives)
-        recall = float(true_positives) / (true_positives + false_negatives)
-        f1 = (2 * precision * recall) / (precision + recall)
-        print('\nEvaluation on the Test set\n')
-        print('delta = ' + str(best_delta) + '\tepsilon = ' + str(
-            best_epsilon))
-        print('Precision = ' + str(precision))
-        print('Recall = ' + str(recall))
-        print('F1-score = ' + str(f1))
-        print(str(round(precision, 3)) + '\t' + str(round(recall, 3)) + '\t' + str(round(f1, 3)))
-
-        ################################################################################
-
-        crf = sklearn_crfsuite.CRF(algorithm='ap', max_iterations=best_max_iteration)
-        crf.fit(X_training, Y_training, X_dev=X_dev, y_dev=Y_dev)
-
-        Y_predict = crf.predict(X_test)
-
-        print("No Epsilon")
-
-        true_positives, false_positives, false_negatives = 0, 0, 0
-        for j in range(len(Y_test)):
-            for i in range(len(Y_test[j])):
-                if Y_test[j][i] == 'E' or Y_test[j][i] == 'S':
-                    if Y_test[j][i] == Y_predict[j][i]:
-                        true_positives += 1
-                    else:
-                        false_negatives += 1
-                else:
-                    if Y_predict[j][i] == 'E' or Y_predict[j][i] == 'S':
-                        false_positives += 1
-        precision = float(true_positives) / (true_positives + false_positives)
-        recall = float(true_positives) / (true_positives + false_negatives)
-        f1 = (2 * precision * recall) / (precision + recall)
-        print('\nEvaluation on the Test set\n')
-        print('delta = ' + str(best_delta) + '\tmax_iter = ' + str(best_max_iteration))
-        print('Precision = ' + str(precision))
-        print('Recall = ' + str(recall))
-        print('F1-score = ' + str(f1))
-        print(str(round(precision, 3)) + '\t' + str(round(recall, 3)) + '\t' + str(round(f1, 3)))
-
-        #########################################################
-
-        crf = sklearn_crfsuite.CRF(algorithm='lbfgs', epsilon=best_epsilon, max_iterations=best_max_iteration)
-        crf.fit(X_training, Y_training, X_dev=X_dev, y_dev=Y_dev)
-
-        Y_predict = crf.predict(X_test)
-
-        print("LBFGS Algo")
-
-        true_positives, false_positives, false_negatives = 0, 0, 0
-        for j in range(len(Y_test)):
-            for i in range(len(Y_test[j])):
-                if Y_test[j][i] == 'E' or Y_test[j][i] == 'S':
-                    if Y_test[j][i] == Y_predict[j][i]:
-                        true_positives += 1
-                    else:
-                        false_negatives += 1
-                else:
-                    if Y_predict[j][i] == 'E' or Y_predict[j][i] == 'S':
-                        false_positives += 1
-        precision = float(true_positives) / (true_positives + false_positives)
-        recall = float(true_positives) / (true_positives + false_negatives)
-        f1 = (2 * precision * recall) / (precision + recall)
-        print('\nEvaluation on the Test set\n')
-        print('delta = ' + str(best_delta) + '\tepsilon = ' + str(
-            best_epsilon) + '\tmax_iter = ' + str(best_max_iteration))
-        print('Precision = ' + str(precision))
-        print('Recall = ' + str(recall))
-        print('F1-score = ' + str(f1))
-        print(str(round(precision, 3)) + '\t' + str(round(recall, 3)) + '\t' + str(round(f1, 3)))
-
-        ####################################################################
-
-        crf = sklearn_crfsuite.CRF(algorithm='pa', epsilon=best_epsilon, max_iterations=best_max_iteration)
-        crf.fit(X_training, Y_training, X_dev=X_dev, y_dev=Y_dev)
-
-        Y_predict = crf.predict(X_test)
-
-        print("pa")
-
-        true_positives, false_positives, false_negatives = 0, 0, 0
-        for j in range(len(Y_test)):
-            for i in range(len(Y_test[j])):
-                if Y_test[j][i] == 'E' or Y_test[j][i] == 'S':
-                    if Y_test[j][i] == Y_predict[j][i]:
-                        true_positives += 1
-                    else:
-                        false_negatives += 1
-                else:
-                    if Y_predict[j][i] == 'E' or Y_predict[j][i] == 'S':
-                        false_positives += 1
-        precision = float(true_positives) / (true_positives + false_positives)
-        recall = float(true_positives) / (true_positives + false_negatives)
-        f1 = (2 * precision * recall) / (precision + recall)
-        print('\nEvaluation on the Test set\n')
-        print('delta = ' + str(best_delta) + '\tepsilon = ' + str(
-            best_epsilon) + '\tmax_iter = ' + str(best_max_iteration))
-        print('Precision = ' + str(precision))
-        print('Recall = ' + str(recall))
-        print('F1-score = ' + str(f1))
-        print(str(round(precision, 3)) + '\t' + str(round(recall, 3)) + '\t' + str(round(f1, 3)))
-
-        #########################################################################################
-
-        crf = sklearn_crfsuite.CRF(algorithm='arow', epsilon=best_epsilon, max_iterations=best_max_iteration)
-        crf.fit(X_training, Y_training, X_dev=X_dev, y_dev=Y_dev)
-
-        Y_predict = crf.predict(X_test)
-
-        print("arow")
-
-        true_positives, false_positives, false_negatives = 0, 0, 0
-        for j in range(len(Y_test)):
-            for i in range(len(Y_test[j])):
-                if Y_test[j][i] == 'E' or Y_test[j][i] == 'S':
-                    if Y_test[j][i] == Y_predict[j][i]:
-                        true_positives += 1
-                    else:
-                        false_negatives += 1
-                else:
-                    if Y_predict[j][i] == 'E' or Y_predict[j][i] == 'S':
-                        false_positives += 1
-        precision = float(true_positives) / (true_positives + false_positives)
-        recall = float(true_positives) / (true_positives + false_negatives)
-        f1 = (2 * precision * recall) / (precision + recall)
-        print('\nEvaluation on the Test set\n')
-        print('delta = ' + str(best_delta) + '\tepsilon = ' + str(
-            best_epsilon) + '\tmax_iter = ' + str(best_max_iteration))
-        print('Precision = ' + str(precision))
-        print('Recall = ' + str(recall))
-        print('F1-score = ' + str(f1))
-        print(str(round(precision, 3)) + '\t' + str(round(recall, 3)) + '\t' + str(round(f1, 3)))
-        ############################################################################################"""
+        print('Weighted:')
+        print(metrics.flat_recall_score(test, predicted, average='weighted', labels=labels))
+        print(metrics.flat_precision_score(test, predicted, average='weighted', labels=labels))
+        print(metrics.flat_f1_score(test, predicted, average='weighted', labels=labels))
+        print('Micro:')
+        print(metrics.flat_recall_score(test, predicted, average='micro', labels=labels))
+        print(metrics.flat_precision_score(test, predicted, average='micro', labels=labels))
+        print(metrics.flat_f1_score(test, predicted, average='micro', labels=labels))
+        print('Macro:')
+        print(metrics.flat_recall_score(test, predicted, average='macro', labels=labels))
+        print(metrics.flat_precision_score(test, predicted, average='macro', labels=labels))
+        print(metrics.flat_f1_score(test, predicted, average='macro', labels=labels))
+        print('Samples: ')
+        print(metrics.flat_recall_score(test, predicted, average='samples', labels=labels))
+        print(metrics.flat_precision_score(test, predicted, average='samples', labels=labels))
+        print(metrics.flat_f1_score(test, predicted, average='samples', labels=labels))
 
 
 def surface_segment_data_preparation(word_dictionary: {str, str}):
     """"This Method is used to prepare data for the crf that is performing the surface segmentation"""
-    """
-    X = []
-    Y = []
-    words = []
-
-    for word in word_dictionary:
-        word_list = []
-        word_label_list = []
-
-        for i in range(len(word)):
-            char_dict = {}
-            delta = 4
-            for j in range(delta):
-                char_dict['right_' + word[i:i + j + 1]] = 1
-            for j in range(delta):
-                char_dict['left_' + word[i - j - 1:i]] = 1
-
-            char_dict['pos_start_' + str(i)] = 1
-
-            word_list.append(char_dict)
-
-            word_label_list.append(word_dictionary[word][i])
-
-        X.append(word_list)
-        Y.append(word_label_list)
-        temp_list_word = [char for char in word]
-        words.append(temp_list_word)
-    return X, Y, words"""
-
     X = []
     Y = []
     words = []
@@ -516,24 +286,24 @@ def surface_segment_data_preparation(word_dictionary: {str, str}):
             gram_arr = []
 
             ### Unigram
-            #gram_dict[word[i]] = 1
-            gram_dict["uni_"+word[i]] = 1
+            # gram_dict[word[i]] = 1
+            gram_dict["uni_" + word[i]] = 1
             gram_arr.append(word[i])
 
             ### BIGRAM
             try:
                 tmp = word[i - 1: i + 1]
                 if tmp:
-                    #gram_dict[tmp] = 1
-                    gram_dict["bi_"+tmp] = 1
+                    # gram_dict[tmp] = 1
+                    gram_dict["bi_" + tmp] = 1
                     gram_arr.append(tmp)
             except IndexError:
                 continue
             try:
                 tmp = word[i: i + 2]
                 if tmp:
-                    #gram_dict[tmp] = 1
-                    gram_dict["bi_"+tmp] = 1
+                    # gram_dict[tmp] = 1
+                    gram_dict["bi_" + tmp] = 1
                     gram_arr.append(tmp)
             except IndexError:
                 continue
@@ -542,8 +312,8 @@ def surface_segment_data_preparation(word_dictionary: {str, str}):
             try:
                 tmp = word[i - 1: i + 2]
                 if tmp:
-                    #gram_dict[tmp] = 1
-                    gram_dict["tri_"+tmp] = 1
+                    # gram_dict[tmp] = 1
+                    gram_dict["tri_" + tmp] = 1
                     gram_arr.append(tmp)
             except IndexError:
                 continue
@@ -552,8 +322,8 @@ def surface_segment_data_preparation(word_dictionary: {str, str}):
             try:
                 tmp = word[i - 1: i + 3]
                 if tmp:
-                    #gram_dict[tmp] = 1
-                    gram_dict["four_"+tmp] = 1
+                    # gram_dict[tmp] = 1
+                    gram_dict["four_" + tmp] = 1
                     gram_arr.append(tmp)
             except IndexError:
                 continue
@@ -561,8 +331,8 @@ def surface_segment_data_preparation(word_dictionary: {str, str}):
             try:
                 tmp = word[i - 2: i + 2]
                 if tmp:
-                    #gram_dict[tmp] = 1
-                    gram_dict["four_"+tmp] = 1
+                    # gram_dict[tmp] = 1
+                    gram_dict["four_" + tmp] = 1
                     gram_arr.append(tmp)
             except IndexError:
                 continue
@@ -571,8 +341,8 @@ def surface_segment_data_preparation(word_dictionary: {str, str}):
             try:
                 tmp = word[i - 2: i + 3]
                 if tmp:
-                    #gram_dict[tmp] = 1
-                    gram_dict["five_"+tmp] = 1
+                    # gram_dict[tmp] = 1
+                    gram_dict["five_" + tmp] = 1
                     gram_arr.append(tmp)
             except IndexError:
                 continue
@@ -581,8 +351,8 @@ def surface_segment_data_preparation(word_dictionary: {str, str}):
             try:
                 tmp = word[i - 3: i + 3]
                 if tmp:
-                    #gram_dict[tmp] = 1
-                    gram_dict["six_"+tmp] = 1
+                    # gram_dict[tmp] = 1
+                    gram_dict["six_" + tmp] = 1
                     gram_arr.append(tmp)
             except IndexError:
                 continue
@@ -590,40 +360,11 @@ def surface_segment_data_preparation(word_dictionary: {str, str}):
             try:
                 tmp = word[i - 2: i + 4]
                 if tmp:
-                    #gram_dict[tmp] = 1
-                    gram_dict["six_"+tmp] = 1
+                    # gram_dict[tmp] = 1
+                    gram_dict["six_" + tmp] = 1
                     gram_arr.append(tmp)
             except IndexError:
                 continue
-
-            """## SevenGram
-            try:
-                tmp = word[i - 3: i + 4]
-                if tmp:
-                    #gram_dict[tmp] = 1
-                    gram_dict["seven_"+tmp] = 1
-                    gram_arr.append(tmp)
-            except IndexError:
-                continue
-
-            ## EightGram
-            try:
-                tmp = word[i - 4: i + 4]
-                if tmp:
-                    #gram_dict[tmp] = 1
-                    gram_dict["eight_"+tmp] = 1
-                    gram_arr.append(tmp)
-            except IndexError:
-                continue
-
-            try:
-                tmp = word[i - 3: i + 5]
-                if tmp:
-                    #gram_dict[tmp] = 1
-                    gram_dict["eight_"+tmp] = 1
-                    gram_arr.append(tmp)
-            except IndexError:
-                continue"""
 
             if word[i] in 'aeiou':
                 gram_dict["vowel"] = 1
@@ -635,7 +376,6 @@ def surface_segment_data_preparation(word_dictionary: {str, str}):
             else:
                 gram_dict["lower"] = 1
 
-
             word_list.append(gram_dict)
             word_label_list.append(word_dictionary[word][i])
 
@@ -644,73 +384,52 @@ def surface_segment_data_preparation(word_dictionary: {str, str}):
         words.append([char for char in word])
     return X, Y, words
 
-def labelled_orthographic_data_preparation(word_dictionary: {str, str}):
-    """This Method is used to prepare data for the crf that is performing the labelled orthographic segmentation"""
+
+def surface_labelled_data_preparation(word_dictionary: {str, str}):
+    # nge-zin-konzo : NPre-BPre-NStem
     X = []
     Y = []
     words = []
 
-
     for word in word_dictionary:
-        #########################################
-        # Just Orthographic Form
-        # Words
-        surface = word_dictionary[word][0].split('-')
-        orthographic = word_dictionary[word][1].split('-')
+        segments = word.split('-')
+        labels = word_dictionary[word].split('-')
+        segment_features = []
+        for i in range(len(segments)):
+            features = {}
 
-        while len(surface) < len(orthographic):
-            surface.append('')
+            segment_length = len(segments[i])
+            features['length'] = segment_length
 
-        words.append(char for char in word)
-        # Surface Form
-        X.append(surface)
-        # orthographic form
-        Y.append(orthographic)
-        #########################################
+            features['segment.lower()'] = segments[i].lower()
+
+            if segment_length % 2 == 0:
+                features['even'] = 1
+            else:
+                features['odd'] = 1
+
+            features['begin'] = segments[i][0]
+            features['end'] = segments[i][len(segments[i]) - 1]
+
+            if segments[0].isupper():
+                features['start_upper'] = 1
+            else:
+                features['start_lower'] = 1
+
+            if segments[0] in 'aeiou':
+                features['first_vowel'] = 1
+            else:
+                features['first_const'] = 1
+
+            segment_features.append(features)
+        words.append(segments)
+
+        X.append(segment_features)
+        Y.append(labels)
+        words.append(word)
 
     return X, Y, words
 
-
-"""
-        #Orthographic Form
-        for char in line[2]:
-                        if char == '-':
-                            if not morph == '':
-                                result.append(morph)
-                            morph = ''
-                            continue
-                        elif char == '[' and not tag:
-                            if not morph == '':
-                                result.append(morph)
-                            morph = ''
-                            tag = True
-                        elif not tag:
-                            morph += char
-                        elif tag and char == ']':
-                            tag = False
-                        else:
-                            continue
-
-                    if morph.strip():
-                        result.append(morph.strip())
-                    # print(result)
-
-                    label = ''
-                    for morph in result:
-                        if len(morph) == 1:
-                            label += 'S'
-                        else:
-                            label += 'B'
-                            for i in range(len(morph) - 2):
-                                label += 'M'
-                            label += 'E'
-                    dictionaries[counter][line[0]] = label
-                    #print(dictionaries)
-                    limit += 1
-                    #if limit > n_samples:
-                        #break
-                limit = 0
-                counter += 1"""
 
 """languages = ["zulu", "swati", "ndebele", "xhosa"]
 for lang in languages:
@@ -718,6 +437,7 @@ for lang in languages:
     crf = BaselineCRF(lang)
     crf.surface_segmentation()
     print("####################")"""
+
 
 def removeLabels(str2: str):
     """Method to remove labels from the orthographic segmentation so this form
@@ -754,7 +474,28 @@ def removeLabels(str2: str):
 
     return "".join(str2_arr).rstrip("-").lstrip("-")
 
-"""CRF = BaselineCRF("zulu")
-x,y = CRF.surface_segmentation()
-CRF.results(x, y)
-"""
+
+def get_labels(orthographic: str):
+    labels = []
+    tmp = ''
+    tag = False
+
+    # Get all labels from orthographic form
+    for char in orthographic:
+        if char == '[':
+            tag = True
+        elif char == ']':
+            labels.append(tmp)
+            tag = False
+            tmp = ''
+        elif tag:
+            tmp += char
+    return labels
+
+
+CRF = BaselineCRF("zulu")
+# x, y = CRF.surface_segmentation()
+# CRF.results(x, y)
+
+x, y, z = CRF.surface_labelled_segmentation()
+CRF.results_labelled(x, y, z)

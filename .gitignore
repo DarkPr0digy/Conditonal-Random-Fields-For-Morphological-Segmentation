@@ -108,3 +108,13 @@ venv/Scripts/tabulate.exe
 venv/Scripts/tqdm.exe
 *.pyc
 *.pyc
+*.json
+*.json
+*.xml
+venv/share/jupyter/nbextensions/jupyter-js-widgets/extension.js
+*.map
+*.gz
+*.js
+*.png
+*.json
+venv/*

@@ -1,6 +1,7 @@
 *.pyc
 *.pyd
 /venv/*
+\venv\*
 venv/Lib/site-packages/Levenshtein/__init__.py
 venv/Lib/site-packages/Levenshtein/_levenshtein.c
 venv/Lib/site-packages/Levenshtein/_levenshtein.h

@@ -1,6 +1,6 @@
-
 *.pyc
 *.pyd
+/venv/*
 venv/Lib/site-packages/Levenshtein/__init__.py
 venv/Lib/site-packages/Levenshtein/_levenshtein.c
 venv/Lib/site-packages/Levenshtein/_levenshtein.h
@@ -117,7 +117,6 @@ venv/share/jupyter/nbextensions/jupyter-js-widgets/extension.js
 *.js
 *.png
 *.json
-venv/*
 morphology/.DS_Store
 venv/Lib/site-packages/pip-20.2.dist-info/top_level.txt
 venv/Lib/site-packages/pip-20.2.dist-info/RECORD

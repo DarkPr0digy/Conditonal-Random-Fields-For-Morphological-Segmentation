@@ -157,7 +157,7 @@ class NeuralCRF:
                 tmp_labels = format_arrays_json(label_list)
 
                 if counter == 0:
-                    datas_set.write(tmp_surface + "\t" + tmp_labels)
+                    datas_set.write(tmp_surface + "\t" + tmp_labels + "\n")
 
             input_file.close()
             counter += 1

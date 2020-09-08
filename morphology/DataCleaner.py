@@ -2,7 +2,7 @@ from morphology.Symbols import Symbols
 import Levenshtein as LevenshteinDistance
 import os
 import sys
-import re
+
 
 
 class DataCleaner:
@@ -50,9 +50,6 @@ class DataCleaner:
                                                                 removeLabels(line_value[3]))
 
                 # print(line_value[0]+"|"+labelled_surface)
-                ''' new_file.write(removeLabels(line_value[0]) + " | " +
-                               surface_segmented
-                               + " | " + orthographic_form+'\n')'''
                 #########################################
                 if label_per_morpheme(orthographic_form) and not \
                         has_insert(LevenshteinDistance.editops(removeLabels(orthographic_form), surface_segmented)):
@@ -60,9 +57,6 @@ class DataCleaner:
                     new_file.write(removeLabels(line_value[0]) + " | " +
                                    surface_segmented + " | " + labelled_surface_seg
                                    + " | " + orthographic_form + '\n')
-                    '''new_file.write(removeLabels(line_value[0]) + " | " +
-                                   surface_segmented
-                                   + " | " + orthographic_form + '\n')'''
                 else:
                     continue
                 #########################################

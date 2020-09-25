@@ -17,13 +17,8 @@ class DataCleaner:
         """Method Used to Clean the Data contained in the original files, and to generate the surface segmentation"""
         new_file = open(os.path.join(sys.path[0], filename + ".conll"), "w")
         # open new file for writing
-        first_line = True
-        for line in self.lines:
-            if first_line:
-                first_line = not first_line
-                continue
-            # first line contains headings so skip that
 
+        for line in self.lines:
             is_blank = False
             if line == '' or line == '\n' or line == ' ':
                 is_blank = True
@@ -48,8 +43,6 @@ class DataCleaner:
                 orthographic_form = normaliseOrthographicForm(line_value[3].rstrip('\n'))
                 surface_segmented = generateSurfaceSegmentation(removeLabels(line_value[0]),
                                                                 removeLabels(line_value[3]))
-
-                # print(line_value[0]+"|"+labelled_surface)
                 #########################################
                 if label_per_morpheme(orthographic_form) and not \
                         has_insert(LevenshteinDistance.editops(removeLabels(orthographic_form), surface_segmented)):
@@ -59,10 +52,6 @@ class DataCleaner:
                                    + " | " + orthographic_form + '\n')
                 else:
                     continue
-                #########################################
-                """print(removeLabels(line_value[0]) + " | " +
-                  generateSurfaceSegmentation(removeLabels(line_value[0]), removeLabels(line_value[3])) + " | " +
-                  normaliseOrthographicForm(line_value[3]))"""
 
         # Close both files to avoid leakages
         self.file.close()
@@ -106,8 +95,7 @@ def normaliseOrthographicForm(orthographic: str):
         if str2_arr[i] == '[':
             tag = True
         elif double_label:
-            label.append(',')
-            label.append(' ')
+            label.append('|')
         elif str2_arr[i] == ']':
             tag = False
             str.append('[')
@@ -119,6 +107,31 @@ def normaliseOrthographicForm(orthographic: str):
             label.append(str2_arr[i])
         else:
             str.append(str2_arr[i])
+
+    tmp_ortho = "".join(str)
+
+    is_label = False
+    is_first_label_char = False
+    str = []
+
+    for char in tmp_ortho:
+        if char == "[":
+            is_label = True
+            is_first_label_char = True
+            str.append(char)
+        elif is_label and is_first_label_char:
+            str.append(char.upper())
+            is_first_label_char = False
+        elif is_label and char == "|":
+            is_first_label_char = True
+            str.append(char)
+        elif char == "]":
+            is_label = False
+            str.append(char)
+        elif is_label and char == "+":
+            str.append("|")
+        else:
+            str.append(char)
 
     return "".join(str)
 
@@ -232,8 +245,12 @@ def generateLabelledSurfaceSegmentation(surface_segmented: str, orthographic_lab
             destination = [pos for pos in surface_segmented]
             dash_pos = [x for x in range(len(outputword)) if outputword[x] == '-']
 
+            edit_counter = 0
             for edit in editops:
                 labelPos = 0
+                for x in dash_pos:
+                    if edit[1] >= x:
+                        labelPos += 1
                 deleted_dash_not_first_label, double_dash, deleted_dash_first_label = False, False, False
                 if edit[0] == 'delete':
                     if outputword[edit[1]] == '-':
@@ -244,6 +261,7 @@ def generateLabelledSurfaceSegmentation(surface_segmented: str, orthographic_lab
                         elif all_stars(outputword[0: edit[1]]):
                             deleted_dash_first_label = True
                     outputword[edit[1]] = '*'
+
                 if edit[0] == 'replace':
                     outputword[edit[1]] = destination[edit[2]]
                 if edit[0] == 'insert':
@@ -251,23 +269,27 @@ def generateLabelledSurfaceSegmentation(surface_segmented: str, orthographic_lab
 
                 if deleted_dash_not_first_label:
                     if outputword[edit[1] + 1] in alphabet and previous_segment(outputword[:edit[1]]):
-                        tmp = labels[labelPos]
+                        #tmp = labels[labelPos]
                         del labels[labelPos]
-                        labels[labelPos - 1] += '|' + tmp
+                        #labels[labelPos - 1] += '|' + tmp
 
                 segmentedArray = printSegments(outputword)
                 for i, segment in enumerate(segmentedArray):
                     if segment == '' and i == 0:
+                        tmp = labels[0]
                         del labels[0]
+                        labels[0] = tmp+"|"+labels[0]
                     elif segment == '':
-                        label = labels[i]
-                        labels[i - 1] = labels[i - 1] + '|' + label
+                        #label = labels[i]
+                        #labels[i - 1] = labels[i - 1] + '|' + label
                         del labels[i]
+                edit_counter += 1
+                dash_pos = [x for x in range(len(outputword)) if outputword[x] == '-']
 
-            str = []
+            string = []
             for x in range(len(surface)):
                 try:
-                    str.append(surface[x] + '[' + labels[x] + ']')
+                    string.append(surface[x] + '[' + labels[x] + ']')
                 except IndexError:
                     print(editops)
                     print(orthographic_labelled)
@@ -275,7 +297,7 @@ def generateLabelledSurfaceSegmentation(surface_segmented: str, orthographic_lab
                     print(surface_segmented)
                     print(labels)
                     exit(0)
-            return "".join(str)
+            return "".join(string)
 
 
 def labelledSurfaceSeg(surface_segmented: str, orthographic_segmented: str):
@@ -603,10 +625,57 @@ def has_insert(edit_ops: [(str, int, int)]):
             return True
     return False
 
-languages = ["zulu", "swati", "ndebele", "xhosa"]
-# print(generateLabelledSurfaceSegmentation('wa-s-e-Ningizimu', 'wa[PossConc1]s[PreLoc-s]e[LocPre]i[NPrePre5]li[BPre5]Ningizimu[NStem]'))
+    def get_ortho_labels(orthographic: str):
+        labels = []
+        tmp = ''
+        tag = False
 
-# print(generateSurfaceSegmentation('SOHLELO',removeLabels('sa[PossConc7]u[NPrePre11]lu[BPre11]hlelo[NStem]'), 'sa[PossConc7]u[NPrePre11]lu[BPre11]hlelo[NStem]'))
+        # Get all labels from orthographic form
+        for char in orthographic:
+            if char == '[':
+                tag = True
+            elif char == ']':
+                labels.append(tmp)
+                tag = False
+                tmp = ''
+            elif tag:
+                tmp += char
+        return labels
+
+
+def get_surface_segments(ortho: str):
+    segments = []
+    tmp = ''
+    label = False
+
+    # Get all segments from orthographic form
+    for char in ortho:
+        if char == '[':
+            segments.append(tmp)
+            tmp = ''
+            label = True
+        elif char == ']':
+            label = False
+        elif not label:
+            tmp += char
+    return segments
+
+def deletion_merge(edit_ops: [(str, int, int)], position: int):
+    for i in range(len(edit_ops[position:])):
+        # check deletions and replacement
+        if edit_ops[i][0] == 'delete':
+            edit_pos = i
+            deletion_counter = 1
+            while edit_ops[edit_pos][0] == 'delete':
+                if edit_ops[edit_pos+1][0] == 'replace':
+                    if edit_ops[position][1] + deletion_counter == edit_ops[edit_pos+1][1]:
+                        return True
+                deletion_counter += 1
+                edit_pos += 1
+    return False
+
+
+languages = ["zulu", "swati", "ndebele", "xhosa"]
 
 for lang in languages:
     print("Language: " + lang)

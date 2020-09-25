@@ -2,8 +2,8 @@
 from sklearn.metrics import precision_score, f1_score, recall_score
 from sklearn.preprocessing import MultiLabelBinarizer
 from sklearn_crfsuite import metrics
-#from bi_lstm_crf.app import train, WordsTagger
 from bi_lstm_crf.app import train, WordsTagger
+#from .bi_lstm_crf.app import train, WordsTagger
 import argparse
 import os
 import sys
@@ -24,7 +24,7 @@ class NeuralCRF:
         ####################################################
         training_data, dev_data, test_data = [], [], []
         lists = (training_data, dev_data, test_data)
-        datas_set = open(os.path.join(sys.path[0], 'dataset.txt'), "w")
+        datas_set = open(os.path.join(sys.path[0], 'corpus_dir/dataset.txt'), "w")
         counter = 0
         for file in self.input_files:
 
@@ -43,7 +43,17 @@ class NeuralCRF:
                             label += "M"
                         label += "E"
 
-                string = format_arrays_json(label)
+                string = []
+                for morph in segments:
+                    if len(morph) == 1:
+                        string.append("S")
+                    else:
+                        string.append("BW")
+                        for i in range(len(morph) - 2):
+                            string.append("M")
+                        string.append("E")
+
+                string = format_arrays_json(string)
                 tmp = (word, label)
                 lists[counter].append(tmp)
                 if counter == 0:
@@ -55,8 +65,8 @@ class NeuralCRF:
         print("Collected Data")
 
 
-        vocab = open(os.path.join(sys.path[0], 'vocab.json'), "w")
-        tags = open(os.path.join(sys.path[0], 'tags.json'), "w")
+        vocab = open(os.path.join(sys.path[0], 'corpus_dir/vocab.json'), "w")
+        tags = open(os.path.join(sys.path[0], 'corpus_dir/tags.json'), "w")
 
         alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\'.\",1234567890%"
         string = "["
@@ -91,12 +101,12 @@ class NeuralCRF:
         print("Got Arguments")
         train(args)
         print("Completed Training")
-        df = pd.read_csv("Neural CRF Model/surface_model/loss.csv")
+        df = pd.read_csv("surface_model/loss.csv")
         df[["train_loss", "val_loss"]].ffill().plot(grid=True)
         plt.show()
         temp_predicted = []
         temp_true = []
-        model = WordsTagger(model_dir='Neural CRF Model/surface_model')
+        model = WordsTagger(model_dir='surface_model')
         print("Testing Model")
         for word, label in test_data:
             temp_true.append(label)
@@ -108,7 +118,7 @@ class NeuralCRF:
         for lbl in temp_true:
             y_true.append(list(lbl))
 
-        #print(y_true[0:15])
+        print(y_true[0:15])
 
         y_predicted = []
         for arr in temp_predicted:
@@ -120,7 +130,7 @@ class NeuralCRF:
                 else:
                     str.append(char)
             y_predicted.append(str)
-        #print(y_predicted[0:15])
+        print(y_predicted[0:15])
 
         return y_predicted, y_true
 
@@ -132,7 +142,7 @@ class NeuralCRF:
         lists = (training_data, dev_data, test_data)
         counter = 0
         alphabet, labels = [], []
-        datas_set = open(os.path.join(sys.path[0], 'dataset.txt'), "w")
+        datas_set = open(os.path.join(sys.path[0], 'corpus_dir/dataset.txt'), "w")
 
         for file in self.input_files:
             input_file = open(os.path.join(sys.path[0], file), 'r')
@@ -165,10 +175,10 @@ class NeuralCRF:
         datas_set.close()
         print("Collected Data: labels and segments")
         ##############################################
-        vocab = open(os.path.join(sys.path[0], 'vocab.json'), "w")
-        tags = open(os.path.join(sys.path[0], 'tags.json'), "w")
+        vocab = open(os.path.join(sys.path[0], 'corpus_dir/vocab.json'), "w")
+        tags = open(os.path.join(sys.path[0], 'corpus_dir/tags.json'), "w")
 
-        tmp_alphabet = format_arrays_json(alphabet, "\"topping")
+        tmp_alphabet = format_arrays_json(alphabet)
         tmp_labels = format_arrays_json(labels)
         self.labels = labels
 
@@ -184,11 +194,11 @@ class NeuralCRF:
         train(args)
         print("Completed Training")
 
-        df = pd.read_csv("Neural CRF Model/model_dir/loss.csv")
+        df = pd.read_csv("labelled_model/loss.csv")
         df[["train_loss", "val_loss"]].ffill().plot(grid=True)
         plt.show()
 
-        model = WordsTagger(model_dir='Neural CRF Model/labelled_model')
+        model = WordsTagger(model_dir='labelled_model')
         print("Testing Model")
 
         y_true = []
@@ -319,14 +329,15 @@ def format_arrays_json(arr:[str], special_case = None):
 def get_surface_args():
     parser = argparse.ArgumentParser()
     #parser.add_argument('corpus_dir', type=str, help="the corpus directory")
-    parser.add_argument('--corpus_dir', type=str, default='Neural CRF Model/', help="the corpus directory")
-
-    parser.add_argument('--model_dir', type=str, default="Neural CRF Model/surface_model", help="the output directory for model files")
+    parser.add_argument('--corpus_dir', type=str, default='corpus_dir/', help="the corpus directory")
+    #parser.add_argument('--model_dir', type=str, default="Neural CRF Model/surface_model", help="the output directory for model files")
+    parser.add_argument('--model_dir', type=str, default="surface_model/",
+                        help="the output directory for model files")
 
     parser.add_argument('--num_epoch', type=int, default=20, help="number of epoch to train")
-    parser.add_argument('--lr', type=float, default=1e-3, help='learning rate')
+    parser.add_argument('--lr', type=float, default=1e-2, help='learning rate')
     #parser.add_argument('--weight_decay', type=float, default=0., help='the L2 normalization parameter')
-    parser.add_argument('--weight_decay', type=float, default=0.001, help='the L2 normalization parameter')
+    parser.add_argument('--weight_decay', type=float, default=0., help='the L2 normalization parameter')
     parser.add_argument('--batch_size', type=int, default=1000, help='batch size for training')
     parser.add_argument('--device', type=str, default=None,
                         help='the training device: "cuda:0", "cpu:0". It will be auto-detected by default')
@@ -343,7 +354,7 @@ def get_surface_args():
 
     parser.add_argument('--embedding_dim', type=int, default=100, help='the dimension of the embedding layer')
     parser.add_argument('--hidden_dim', type=int, default=128, help='the dimension of the RNN hidden state')
-    parser.add_argument('--num_rnn_layers', type=int, default=8, help='the number of RNN layers')
+    parser.add_argument('--num_rnn_layers', type=int, default=1, help='the number of RNN layers')
     parser.add_argument('--rnn_type', type=str, default="lstm", help='RNN type, choice: "lstm", "gru"')
 
     args = parser.parse_args()
@@ -352,12 +363,12 @@ def get_surface_args():
 def get_labelled_args():
     parser = argparse.ArgumentParser()
     #parser.add_argument('corpus_dir', type=str, help="the corpus directory")
-    parser.add_argument('--corpus_dir', type=str, default='Neural CRF Model/', help="the corpus directory")
+    parser.add_argument('--corpus_dir', type=str, default='corpus_dir/', help="the corpus directory")
 
-    parser.add_argument('--model_dir', type=str, default="Neural CRF Model/labelled_model", help="the output directory for model files")
+    parser.add_argument('--model_dir', type=str, default="labelled_model/", help="the output directory for model files")
 
-    parser.add_argument('--num_epoch', type=int, default=10, help="number of epoch to train")
-    parser.add_argument('--lr', type=float, default=1e-3, help='learning rate')
+    parser.add_argument('--num_epoch', type=int, default=20, help="number of epoch to train")
+    parser.add_argument('--lr', type=float, default=1e-2, help='learning rate')
     #parser.add_argument('--weight_decay', type=float, default=0., help='the L2 normalization parameter')
     parser.add_argument('--weight_decay', type=float, default=0., help='the L2 normalization parameter')
     parser.add_argument('--batch_size', type=int, default=1000, help='batch size for training')
@@ -383,9 +394,18 @@ def get_labelled_args():
     return args
 
 
+languages = ["zulu", "swati", "ndebele", "xhosa"]
+for lang in languages:
+    print("Language: " + lang)
+    n = NeuralCRF(lang)
+    x, y = n.surface_segmentation()
+    n.results(x, y)
+    print(lang + " Analysis complete.\n#############################################")
+
+'''
 n = NeuralCRF('zulu')
 x, y = n.surface_segmentation()
 n.results(x, y)
-'''x, y = n.surface_labelled_segmentation()
+x, y = n.surface_labelled_segmentation()
 n.results_labelled(x, y)
 '''

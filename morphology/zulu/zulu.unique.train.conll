@@ -16785,7 +16785,7 @@ ubuwe	wa	V	u[SC3]be[AuxVStem]u[SC3]w[VRoot]e[VerbTermPerf]
 waziwe	azi	V	u[SC3]az[VRoot]iw[PassExt]e[VerbTermPerf]
 ngokuthi	thi	V	nga[AdvPre]u[NPrePre15]ku[BPre15]th[VRoot]i[VerbTerm]
 yi-"additional"	_	P	yi-"additional"
-i-"topping	_	N	i[NPrePre]-"topping[NStem]
+i-topping	_	N	i[NPrePre]-topping[NStem]
 up	_	N	up
 "	_	PUNCT	_
 wentela	thela	N09	wa[PossConc1]i[NPrePre9]n[BPre9]thela[NStem]
@@ -16799,7 +16799,7 @@ kungakafiki	fika	V	ku[SC15]nga[NegPre]ka[ExclNeg]fik[VRoot]i[VerbTermNeg]
 olubekiwe	beka	V	olu[RelConc11]bek[VRoot]iw[PassExt]e[VerbTermPerf]
 .	_	PUNCT	_
 
-I-'effective	_	N	I-'effective
+I-effective	_	N	I-effective
 date	_	ADV	date
 '	_	PUNCT	_
 isho	sho	V	i[SC9]sh[VRoot]o[VerbTerm]

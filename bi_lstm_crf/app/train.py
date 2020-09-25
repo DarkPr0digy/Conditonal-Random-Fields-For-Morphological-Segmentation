@@ -90,6 +90,8 @@ def train(args):
     print("training completed. test loss: {:.2f}".format(test_loss))
 
 
+'''
+
 def main():
     import argparse
     parser = argparse.ArgumentParser()
@@ -121,3 +123,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+'''

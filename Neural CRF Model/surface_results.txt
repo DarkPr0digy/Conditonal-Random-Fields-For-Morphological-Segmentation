@@ -1,0 +1,457 @@
+"C:\Users\Tumi\Desktop\UniWork\Fourth Year\CS Honours\Honours Project\CRFModels\venv\Scripts\python.exe" "C:\Users\Tumi\Desktop\UniWork\Fourth Year\CS Honours\Honours Project\CRFModels\Neural CRF Model\Neural CRF.py"
+Language: zulu
+Collected Data
+Got Arguments
+config Neural CRF Model/vocab.json loaded
+config Neural CRF Model/tags.json loaded
+tag dict file => Neural CRF Model/surface_model\tags.json
+tag dict file => Neural CRF Model/surface_model\vocab.json
+loading dataset Neural CRF Model/dataset_cache_100.npz ...
+datasets loaded:
+	train: torch.Size([9600, 100]), torch.Size([9600, 100])
+	val: torch.Size([3200, 100]), torch.Size([3200, 100])
+	test: torch.Size([3200, 100]), torch.Size([3200, 100])
+ 1/20 loss:  6.88, val_loss:  0.00: 100%|██████████| 10/10 [00:16<00:00,  1.64s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.18it/s]
+  0%|          | 0/10 [00:00<?, ?it/s]save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 0) => Neural CRF Model/surface_model\loss.csv
+ 2/20 loss:  4.22, val_loss:  6.84: 100%|██████████| 10/10 [00:13<00:00,  1.33s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  2.71it/s]
+  0%|          | 0/10 [00:00<?, ?it/s]save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 1) => Neural CRF Model/surface_model\loss.csv
+ 3/20 loss:  2.65, val_loss:  4.27: 100%|██████████| 10/10 [00:13<00:00,  1.39s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.34it/s]
+save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 2) => Neural CRF Model/surface_model\loss.csv
+ 4/20 loss:  1.98, val_loss:  3.20: 100%|██████████| 10/10 [00:12<00:00,  1.29s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  2.74it/s]
+  0%|          | 0/10 [00:00<?, ?it/s]save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 3) => Neural CRF Model/surface_model\loss.csv
+ 5/20 loss:  1.66, val_loss:  2.65: 100%|██████████| 10/10 [00:13<00:00,  1.33s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.36it/s]
+  0%|          | 0/10 [00:00<?, ?it/s]save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 4) => Neural CRF Model/surface_model\loss.csv
+ 6/20 loss:  1.51, val_loss:  2.30: 100%|██████████| 10/10 [00:13<00:00,  1.33s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.44it/s]
+  0%|          | 0/10 [00:00<?, ?it/s]save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 5) => Neural CRF Model/surface_model\loss.csv
+ 7/20 loss:  1.18, val_loss:  2.12: 100%|██████████| 10/10 [00:14<00:00,  1.45s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.20it/s]
+  0%|          | 0/10 [00:00<?, ?it/s]save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 6) => Neural CRF Model/surface_model\loss.csv
+ 8/20 loss:  0.97, val_loss:  1.97: 100%|██████████| 10/10 [00:13<00:00,  1.32s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.09it/s]
+save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 7) => Neural CRF Model/surface_model\loss.csv
+ 9/20 loss:  0.94, val_loss:  1.87: 100%|██████████| 10/10 [00:13<00:00,  1.36s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.12it/s]
+  0%|          | 0/10 [00:00<?, ?it/s]save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 8) => Neural CRF Model/surface_model\loss.csv
+10/20 loss:  0.75, val_loss:  1.77: 100%|██████████| 10/10 [00:13<00:00,  1.31s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.21it/s]
+save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 9) => Neural CRF Model/surface_model\loss.csv
+11/20 loss:  0.65, val_loss:  1.76: 100%|██████████| 10/10 [00:13<00:00,  1.36s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.13it/s]
+save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 10) => Neural CRF Model/surface_model\loss.csv
+12/20 loss:  0.57, val_loss:  1.74: 100%|██████████| 10/10 [00:12<00:00,  1.30s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.31it/s]
+  0%|          | 0/10 [00:00<?, ?it/s]save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 11) => Neural CRF Model/surface_model\loss.csv
+13/20 loss:  0.54, val_loss:  1.69: 100%|██████████| 10/10 [00:12<00:00,  1.29s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.65it/s]
+save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 12) => Neural CRF Model/surface_model\loss.csv
+14/20 loss:  0.51, val_loss:  1.68: 100%|██████████| 10/10 [00:13<00:00,  1.33s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.40it/s]
+save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 13) => Neural CRF Model/surface_model\loss.csv
+15/20 loss:  0.43, val_loss:  1.69: 100%|██████████| 10/10 [00:12<00:00,  1.27s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.22it/s]
+  0%|          | 0/10 [00:00<?, ?it/s]save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 14) => Neural CRF Model/surface_model\loss.csv
+16/20 loss:  0.38, val_loss:  1.65: 100%|██████████| 10/10 [00:13<00:00,  1.38s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.19it/s]
+  0%|          | 0/10 [00:00<?, ?it/s]save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 15) => Neural CRF Model/surface_model\loss.csv
+17/20 loss:  0.40, val_loss:  1.70: 100%|██████████| 10/10 [00:13<00:00,  1.31s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.35it/s]
+save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 16) => Neural CRF Model/surface_model\loss.csv
+18/20 loss:  0.38, val_loss:  1.68: 100%|██████████| 10/10 [00:13<00:00,  1.36s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.29it/s]
+save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 17) => Neural CRF Model/surface_model\loss.csv
+19/20 loss:  0.42, val_loss:  1.67: 100%|██████████| 10/10 [00:13<00:00,  1.34s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.28it/s]
+  0%|          | 0/10 [00:00<?, ?it/s]save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 18) => Neural CRF Model/surface_model\loss.csv
+20/20 loss:  0.28, val_loss:  1.71: 100%|██████████| 10/10 [00:13<00:00,  1.35s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.20it/s]
+save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 19) => Neural CRF Model/surface_model\loss.csv
+test: 100%|██████████| 2/2 [00:00<00:00,  3.14it/s]
+training completed. test loss: 1.74
+Completed Training
+Testing Model
+Weighted:
+Recall: 0.9722318040703691
+Precision: 0.9705288189972482
+F1 Score: 0.9711565562999389
+Micro:
+Recall: 0.9722318040703691
+Precision: 0.9690562145435792
+F1 Score: 0.9706414119672837
+Macro:
+Recall: 0.9672626339829029
+Precision: 0.9615903986820109
+F1 Score: 0.9641512003713915
+Samples:
+Recall: 0.9716074397339983
+Precision: 0.9687240232751454
+F1 Score: 0.9673969837311485
+zulu Analysis complete.
+#############################################
+Language: swati
+Collected Data
+Got Arguments
+config Neural CRF Model/vocab.json loaded
+config Neural CRF Model/tags.json loaded
+tag dict file => Neural CRF Model/surface_model\tags.json
+tag dict file => Neural CRF Model/surface_model\vocab.json
+loading dataset Neural CRF Model/dataset_cache_100.npz ...
+  0%|          | 0/10 [00:00<?, ?it/s]datasets loaded:
+	train: torch.Size([9600, 100]), torch.Size([9600, 100])
+	val: torch.Size([3200, 100]), torch.Size([3200, 100])
+	test: torch.Size([3200, 100]), torch.Size([3200, 100])
+ 1/20 loss:  7.79, val_loss:  0.00: 100%|██████████| 10/10 [00:14<00:00,  1.44s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.03it/s]
+  0%|          | 0/10 [00:00<?, ?it/s]save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 0) => Neural CRF Model/surface_model\loss.csv
+ 2/20 loss:  4.13, val_loss:  7.61: 100%|██████████| 10/10 [00:13<00:00,  1.36s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.31it/s]
+  0%|          | 0/10 [00:00<?, ?it/s]save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 1) => Neural CRF Model/surface_model\loss.csv
+ 3/20 loss:  2.87, val_loss:  4.60: 100%|██████████| 10/10 [00:12<00:00,  1.29s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.32it/s]
+save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 2) => Neural CRF Model/surface_model\loss.csv
+ 4/20 loss:  2.18, val_loss:  3.51: 100%|██████████| 10/10 [00:13<00:00,  1.33s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.00it/s]
+save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 3) => Neural CRF Model/surface_model\loss.csv
+ 5/20 loss:  1.79, val_loss:  2.91: 100%|██████████| 10/10 [00:13<00:00,  1.32s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.38it/s]
+save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 4) => Neural CRF Model/surface_model\loss.csv
+ 6/20 loss:  1.47, val_loss:  2.52: 100%|██████████| 10/10 [00:13<00:00,  1.30s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.30it/s]
+save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 5) => Neural CRF Model/surface_model\loss.csv
+ 7/20 loss:  1.27, val_loss:  2.39: 100%|██████████| 10/10 [00:13<00:00,  1.32s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.47it/s]
+save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 6) => Neural CRF Model/surface_model\loss.csv
+ 8/20 loss:  1.04, val_loss:  2.20: 100%|██████████| 10/10 [00:12<00:00,  1.30s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.20it/s]
+save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 7) => Neural CRF Model/surface_model\loss.csv
+ 9/20 loss:  0.98, val_loss:  2.14: 100%|██████████| 10/10 [00:13<00:00,  1.35s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.39it/s]
+  0%|          | 0/10 [00:00<?, ?it/s]save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 8) => Neural CRF Model/surface_model\loss.csv
+10/20 loss:  0.96, val_loss:  2.06: 100%|██████████| 10/10 [00:12<00:00,  1.29s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.34it/s]
+save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 9) => Neural CRF Model/surface_model\loss.csv
+11/20 loss:  0.77, val_loss:  2.06: 100%|██████████| 10/10 [00:12<00:00,  1.30s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  2.95it/s]
+save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 10) => Neural CRF Model/surface_model\loss.csv
+12/20 loss:  0.79, val_loss:  1.96: 100%|██████████| 10/10 [00:13<00:00,  1.34s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.38it/s]
+  0%|          | 0/10 [00:00<?, ?it/s]save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 11) => Neural CRF Model/surface_model\loss.csv
+13/20 loss:  0.72, val_loss:  1.97: 100%|██████████| 10/10 [00:12<00:00,  1.28s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.23it/s]
+save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 12) => Neural CRF Model/surface_model\loss.csv
+14/20 loss:  0.62, val_loss:  1.93: 100%|██████████| 10/10 [00:13<00:00,  1.32s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.22it/s]
+save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 13) => Neural CRF Model/surface_model\loss.csv
+15/20 loss:  0.59, val_loss:  1.95: 100%|██████████| 10/10 [00:13<00:00,  1.31s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.26it/s]
+  0%|          | 0/10 [00:00<?, ?it/s]save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 14) => Neural CRF Model/surface_model\loss.csv
+16/20 loss:  0.48, val_loss:  1.97: 100%|██████████| 10/10 [00:13<00:00,  1.30s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.47it/s]
+save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 15) => Neural CRF Model/surface_model\loss.csv
+17/20 loss:  0.38, val_loss:  1.96: 100%|██████████| 10/10 [00:13<00:00,  1.37s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.33it/s]
+  0%|          | 0/10 [00:00<?, ?it/s]save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 16) => Neural CRF Model/surface_model\loss.csv
+18/20 loss:  0.37, val_loss:  1.96: 100%|██████████| 10/10 [00:13<00:00,  1.31s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.44it/s]
+  0%|          | 0/10 [00:00<?, ?it/s]save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 17) => Neural CRF Model/surface_model\loss.csv
+19/20 loss:  0.32, val_loss:  1.95: 100%|██████████| 10/10 [00:13<00:00,  1.37s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.16it/s]
+  0%|          | 0/10 [00:00<?, ?it/s]save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 18) => Neural CRF Model/surface_model\loss.csv
+20/20 loss:  0.30, val_loss:  2.00: 100%|██████████| 10/10 [00:13<00:00,  1.34s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  2.77it/s]
+save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 19) => Neural CRF Model/surface_model\loss.csv
+test: 100%|██████████| 2/2 [00:00<00:00,  3.24it/s]
+training completed. test loss: 1.95
+Completed Training
+Testing Model
+Weighted:
+Recall: 0.827136
+Precision: 0.9024169655410944
+F1 Score: 0.8557011740358148
+Micro:
+Recall: 0.827136
+Precision: 0.8513833992094861
+F1 Score: 0.8390845641941244
+Macro:
+Recall: 0.7686416868804875
+Precision: 0.7677234075412331
+F1 Score: 0.7544459162797535
+Samples:
+Recall: 0.7982269503546099
+Precision: 0.828797281323877
+F1 Score: 0.8040045592705168
+swati Analysis complete.
+#############################################
+Language: ndebele
+Collected Data
+Got Arguments
+config Neural CRF Model/vocab.json loaded
+config Neural CRF Model/tags.json loaded
+tag dict file => Neural CRF Model/surface_model\tags.json
+tag dict file => Neural CRF Model/surface_model\vocab.json
+loading dataset Neural CRF Model/dataset_cache_100.npz ...
+  0%|          | 0/10 [00:00<?, ?it/s]datasets loaded:
+	train: torch.Size([9600, 100]), torch.Size([9600, 100])
+	val: torch.Size([3200, 100]), torch.Size([3200, 100])
+	test: torch.Size([3200, 100]), torch.Size([3200, 100])
+ 1/20 loss:  9.08, val_loss:  0.00: 100%|██████████| 10/10 [00:13<00:00,  1.33s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.05it/s]
+  0%|          | 0/10 [00:00<?, ?it/s]save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 0) => Neural CRF Model/surface_model\loss.csv
+ 2/20 loss:  6.08, val_loss:  9.24: 100%|██████████| 10/10 [00:16<00:00,  1.64s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  2.85it/s]
+  0%|          | 0/10 [00:00<?, ?it/s]save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 1) => Neural CRF Model/surface_model\loss.csv
+ 3/20 loss:  4.13, val_loss:  6.27: 100%|██████████| 10/10 [00:14<00:00,  1.47s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  2.28it/s]
+save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 2) => Neural CRF Model/surface_model\loss.csv
+ 4/20 loss:  2.99, val_loss:  4.52: 100%|██████████| 10/10 [00:15<00:00,  1.52s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.25it/s]
+  0%|          | 0/10 [00:00<?, ?it/s]save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 3) => Neural CRF Model/surface_model\loss.csv
+ 5/20 loss:  2.67, val_loss:  3.56: 100%|██████████| 10/10 [00:13<00:00,  1.34s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.25it/s]
+save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 4) => Neural CRF Model/surface_model\loss.csv
+ 6/20 loss:  2.01, val_loss:  3.03: 100%|██████████| 10/10 [00:12<00:00,  1.30s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.45it/s]
+  0%|          | 0/10 [00:00<?, ?it/s]save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 5) => Neural CRF Model/surface_model\loss.csv
+ 7/20 loss:  1.54, val_loss:  2.69: 100%|██████████| 10/10 [00:13<00:00,  1.35s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.26it/s]
+  0%|          | 0/10 [00:00<?, ?it/s]save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 6) => Neural CRF Model/surface_model\loss.csv
+ 8/20 loss:  1.42, val_loss:  2.43: 100%|██████████| 10/10 [00:13<00:00,  1.30s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.48it/s]
+  0%|          | 0/10 [00:00<?, ?it/s]save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 7) => Neural CRF Model/surface_model\loss.csv
+ 9/20 loss:  1.09, val_loss:  2.30: 100%|██████████| 10/10 [00:13<00:00,  1.34s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.23it/s]
+save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 8) => Neural CRF Model/surface_model\loss.csv
+10/20 loss:  1.00, val_loss:  2.13: 100%|██████████| 10/10 [00:13<00:00,  1.30s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.37it/s]
+save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 9) => Neural CRF Model/surface_model\loss.csv
+11/20 loss:  1.00, val_loss:  2.11: 100%|██████████| 10/10 [00:13<00:00,  1.34s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  2.81it/s]
+  0%|          | 0/10 [00:00<?, ?it/s]save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 10) => Neural CRF Model/surface_model\loss.csv
+12/20 loss:  0.71, val_loss:  2.03: 100%|██████████| 10/10 [00:13<00:00,  1.31s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.12it/s]
+  0%|          | 0/10 [00:00<?, ?it/s]save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 11) => Neural CRF Model/surface_model\loss.csv
+13/20 loss:  0.78, val_loss:  1.97: 100%|██████████| 10/10 [00:12<00:00,  1.30s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.23it/s]
+save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 12) => Neural CRF Model/surface_model\loss.csv
+14/20 loss:  0.67, val_loss:  1.99: 100%|██████████| 10/10 [00:13<00:00,  1.33s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.32it/s]
+  0%|          | 0/10 [00:00<?, ?it/s]save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 13) => Neural CRF Model/surface_model\loss.csv
+15/20 loss:  0.53, val_loss:  1.97: 100%|██████████| 10/10 [00:12<00:00,  1.30s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.17it/s]
+save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 14) => Neural CRF Model/surface_model\loss.csv
+16/20 loss:  0.56, val_loss:  1.97: 100%|██████████| 10/10 [00:13<00:00,  1.33s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.25it/s]
+save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 15) => Neural CRF Model/surface_model\loss.csv
+17/20 loss:  0.53, val_loss:  1.94: 100%|██████████| 10/10 [00:13<00:00,  1.31s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.25it/s]
+  0%|          | 0/10 [00:00<?, ?it/s]save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 16) => Neural CRF Model/surface_model\loss.csv
+18/20 loss:  0.45, val_loss:  1.95: 100%|██████████| 10/10 [00:12<00:00,  1.30s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.45it/s]
+  0%|          | 0/10 [00:00<?, ?it/s]save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 17) => Neural CRF Model/surface_model\loss.csv
+19/20 loss:  0.44, val_loss:  1.98: 100%|██████████| 10/10 [00:13<00:00,  1.35s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.52it/s]
+  0%|          | 0/10 [00:00<?, ?it/s]save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 18) => Neural CRF Model/surface_model\loss.csv
+20/20 loss:  0.50, val_loss:  1.96: 100%|██████████| 10/10 [00:12<00:00,  1.29s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  2.98it/s]
+test:   0%|          | 0/2 [00:00<?, ?it/s]save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 19) => Neural CRF Model/surface_model\loss.csv
+test: 100%|██████████| 2/2 [00:00<00:00,  2.18it/s]
+training completed. test loss: 1.93
+Completed Training
+Testing Model
+Weighted:
+Recall: 0.9570619006102877
+Precision: 0.9761965464213733
+F1 Score: 0.966293092194696
+Micro:
+Recall: 0.9570619006102877
+Precision: 0.9775155832591274
+F1 Score: 0.9671806167400882
+Macro:
+Recall: 0.9486916942963134
+Precision: 0.9712151031489253
+F1 Score: 0.9595385278163555
+Samples:
+Recall: 0.959156918112142
+Precision: 0.9785531800457172
+F1 Score: 0.96466317063332
+ndebele Analysis complete.
+#############################################
+Language: xhosa
+Collected Data
+Got Arguments
+config Neural CRF Model/vocab.json loaded
+config Neural CRF Model/tags.json loaded
+tag dict file => Neural CRF Model/surface_model\tags.json
+tag dict file => Neural CRF Model/surface_model\vocab.json
+loading dataset Neural CRF Model/dataset_cache_100.npz ...
+datasets loaded:
+	train: torch.Size([9600, 100]), torch.Size([9600, 100])
+	val: torch.Size([3200, 100]), torch.Size([3200, 100])
+	test: torch.Size([3200, 100]), torch.Size([3200, 100])
+ 1/20 loss:  8.24, val_loss:  0.00: 100%|██████████| 10/10 [00:13<00:00,  1.36s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.17it/s]
+  0%|          | 0/10 [00:00<?, ?it/s]save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 0) => Neural CRF Model/surface_model\loss.csv
+ 2/20 loss:  4.53, val_loss:  8.57: 100%|██████████| 10/10 [00:12<00:00,  1.29s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  2.94it/s]
+  0%|          | 0/10 [00:00<?, ?it/s]save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 1) => Neural CRF Model/surface_model\loss.csv
+ 3/20 loss:  3.41, val_loss:  5.24: 100%|██████████| 10/10 [00:13<00:00,  1.38s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.48it/s]
+save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 2) => Neural CRF Model/surface_model\loss.csv
+ 4/20 loss:  2.39, val_loss:  3.82: 100%|██████████| 10/10 [00:12<00:00,  1.29s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.20it/s]
+  0%|          | 0/10 [00:00<?, ?it/s]save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 3) => Neural CRF Model/surface_model\loss.csv
+ 5/20 loss:  1.65, val_loss:  3.12: 100%|██████████| 10/10 [00:13<00:00,  1.33s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.44it/s]
+save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 4) => Neural CRF Model/surface_model\loss.csv
+ 6/20 loss:  1.66, val_loss:  2.77: 100%|██████████| 10/10 [00:12<00:00,  1.29s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.26it/s]
+save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 5) => Neural CRF Model/surface_model\loss.csv
+ 7/20 loss:  1.22, val_loss:  2.57: 100%|██████████| 10/10 [00:12<00:00,  1.28s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  2.54it/s]
+  0%|          | 0/10 [00:00<?, ?it/s]save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 6) => Neural CRF Model/surface_model\loss.csv
+ 8/20 loss:  1.28, val_loss:  2.43: 100%|██████████| 10/10 [00:13<00:00,  1.35s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.38it/s]
+  0%|          | 0/10 [00:00<?, ?it/s]save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 7) => Neural CRF Model/surface_model\loss.csv
+ 9/20 loss:  0.87, val_loss:  2.24: 100%|██████████| 10/10 [00:13<00:00,  1.30s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.43it/s]
+  0%|          | 0/10 [00:00<?, ?it/s]save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 8) => Neural CRF Model/surface_model\loss.csv
+10/20 loss:  0.89, val_loss:  2.27: 100%|██████████| 10/10 [00:13<00:00,  1.36s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.20it/s]
+save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 9) => Neural CRF Model/surface_model\loss.csv
+11/20 loss:  0.76, val_loss:  2.16: 100%|██████████| 10/10 [00:12<00:00,  1.28s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.16it/s]
+save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 10) => Neural CRF Model/surface_model\loss.csv
+12/20 loss:  0.75, val_loss:  2.16: 100%|██████████| 10/10 [00:13<00:00,  1.31s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.00it/s]
+  0%|          | 0/10 [00:00<?, ?it/s]save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 11) => Neural CRF Model/surface_model\loss.csv
+13/20 loss:  0.70, val_loss:  2.10: 100%|██████████| 10/10 [00:13<00:00,  1.32s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.21it/s]
+save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 12) => Neural CRF Model/surface_model\loss.csv
+14/20 loss:  0.66, val_loss:  2.06: 100%|██████████| 10/10 [00:12<00:00,  1.29s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.19it/s]
+save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 13) => Neural CRF Model/surface_model\loss.csv
+15/20 loss:  0.56, val_loss:  2.10: 100%|██████████| 10/10 [00:13<00:00,  1.35s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.52it/s]
+save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 14) => Neural CRF Model/surface_model\loss.csv
+16/20 loss:  0.64, val_loss:  2.06: 100%|██████████| 10/10 [00:13<00:00,  1.32s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.28it/s]
+  0%|          | 0/10 [00:00<?, ?it/s]save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 15) => Neural CRF Model/surface_model\loss.csv
+17/20 loss:  0.50, val_loss:  2.05: 100%|██████████| 10/10 [00:13<00:00,  1.36s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.14it/s]
+save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 16) => Neural CRF Model/surface_model\loss.csv
+18/20 loss:  0.44, val_loss:  2.10: 100%|██████████| 10/10 [00:13<00:00,  1.32s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.28it/s]
+  0%|          | 0/10 [00:00<?, ?it/s]save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 17) => Neural CRF Model/surface_model\loss.csv
+19/20 loss:  0.43, val_loss:  2.05: 100%|██████████| 10/10 [00:13<00:00,  1.32s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.15it/s]
+  0%|          | 0/10 [00:00<?, ?it/s]save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 18) => Neural CRF Model/surface_model\loss.csv
+20/20 loss:  0.45, val_loss:  2.07: 100%|██████████| 10/10 [00:13<00:00,  1.31s/it]
+eval: 100%|██████████| 2/2 [00:00<00:00,  3.30it/s]
+save model => Neural CRF Model/surface_model\model.pth
+save model(epoch: 19) => Neural CRF Model/surface_model\loss.csv
+test: 100%|██████████| 2/2 [00:00<00:00,  3.31it/s]
+training completed. test loss: 2.11
+Completed Training
+Testing Model
+Weighted:
+Recall: 0.9548450565666503
+Precision: 0.9538410027442155
+F1 Score: 0.9542162173243318
+Micro:
+Recall: 0.9548450565666503
+Precision: 0.9522221132149514
+F1 Score: 0.953531781117988
+Macro:
+Recall: 0.9458213431645429
+Precision: 0.9413180590304961
+F1 Score: 0.9434036520278113
+Samples:
+Recall: 0.9538040312245135
+Precision: 0.9514738436444133
+F1 Score: 0.9485943975632896
+xhosa Analysis complete.
+#############################################

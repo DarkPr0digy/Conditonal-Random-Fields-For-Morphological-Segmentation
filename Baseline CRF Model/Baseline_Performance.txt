@@ -1,241 +1,86 @@
+"C:\Users\Tumi\Desktop\UniWork\Fourth Year\CS Honours\Honours Project\CRFModels\venv\Scripts\python.exe" "C:\Users\Tumi\Desktop\UniWork\Fourth Year\CS Honours\Honours Project\CRFModels\Baseline CRF Model\BaselineCRF.py"
 Language: zulu
-Data Collected in -0.2004842
+Data Collected in -0.3286718999999998
 Beginning Feature Computation and Model Optimisation
-Features Successfully Computed & Model Optimised 0.0002257999999999427
-X_Training: [{'uni_u': 1, 'bi_uy': 1, 'vowel': 1, 'lower': 1}, {'uni_y': 1, 'bi_uy': 1, 'bi_yi': 1, 'tri_uyi': 1, 'four_uyik': 1, 'const': 1, 'lower': 1}, {'uni_i': 1, 'bi_yi': 1, 'bi_ik': 1, 'tri_yik': 1, 'four_yikh': 1, 'four_uyik': 1, 'five_uyikh': 1, 'six_uyikho': 1, 'vowel': 1, 'lower': 1}, {'uni_k': 1, 'bi_ik': 1, 'bi_kh': 1, 'tri_ikh': 1, 'four_ikho': 1, 'four_yikh': 1, 'five_yikho': 1, 'six_uyikho': 1, 'six_yikhok': 1, 'const': 1, 'lower': 1}, {'uni_h': 1, 'bi_kh': 1, 'bi_ho': 1, 'tri_kho': 1, 'four_khok': 1, 'four_ikho': 1, 'five_ikhok': 1, 'six_yikhok': 1, 'six_ikhokh': 1, 'const': 1, 'lower': 1}, {'uni_o': 1, 'bi_ho': 1, 'bi_ok': 1, 'tri_hok': 1, 'four_hokh': 1, 'four_khok': 1, 'five_khokh': 1, 'six_ikhokh': 1, 'six_khokhe': 1, 'vowel': 1, 'lower': 1}, {'uni_k': 1, 'bi_ok': 1, 'bi_kh': 1, 'tri_okh': 1, 'four_okhe': 1, 'four_hokh': 1, 'five_hokhe': 1, 'six_khokhe': 1, 'six_hokhe': 1, 'const': 1, 'lower': 1}, {'uni_h': 1, 'bi_kh': 1, 'bi_he': 1, 'tri_khe': 1, 'four_khe': 1, 'four_okhe': 1, 'five_okhe': 1, 'six_hokhe': 1, 'six_okhe': 1, 'const': 1, 'lower': 1}, {'uni_e': 1, 'bi_he': 1, 'bi_e': 1, 'tri_he': 1, 'four_he': 1, 'four_khe': 1, 'five_khe': 1, 'six_okhe': 1, 'six_khe': 1, 'vowel': 1, 'lower': 1}]
-################################
-Y_training: ['S', 'B', 'E', 'B', 'M', 'M', 'M', 'E', 'S']
-################################
-Words Training: ['u', 'y', 'i', 'k', 'h', 'o', 'k', 'h', 'e']
-############################
-Weighted:
-Recall: 0.9684466019417476
-Precision: 0.9774586494736626
-F1 Score: 0.972912714123888
-Micro:
-Recall: 0.9684466019417476
-Precision: 0.9776889347433583
-F1 Score: 0.9730458221024259
-Macro:
-Recall: 0.9629640707427287
-Precision: 0.9727234205938109
-F1 Score: 0.9677995510369367
-Samples:
-Recall: 0.9690286250586579
-Precision: 0.9767714687939935
-F1 Score: 0.9694375544680566
-Data Collected in -0.9464846999999992
-X_Training: [{'length': 1, 'segment.lower()': 'u', 'odd': 1, 'begin': 'u', 'end': 'u', 'start_lower': 1, 'first_vowel': 1}, {'length': 2, 'segment.lower()': 'yi', 'even': 1, 'begin': 'y', 'end': 'i', 'start_lower': 1, 'first_vowel': 1}, {'length': 5, 'segment.lower()': 'khokh', 'odd': 1, 'begin': 'k', 'end': 'h', 'start_lower': 1, 'first_vowel': 1}, {'length': 1, 'segment.lower()': 'e', 'odd': 1, 'begin': 'e', 'end': 'e', 'start_lower': 1, 'first_vowel': 1}]
-################################
-Y_training: ['SC2', 'OC9', 'VRoot', 'VerbTermPerf']
-################################
-Words Training: u-yi-khokh-e
-############################
-Data Processed
-CRF Initialized
-Data Fitted
-['NPrePre', 'NStem']
-['NPrePre5|BPre5', 'NStem']
-Weighted:
-Recall: 0.6797872340425531
-Precision: 0.7486874290009343
-F1 Score: 0.649219158093985
-Recall: 0.6797872340425531
-Precision: 0.779386517146831
-F1 Score: 0.649219158093985
-Micro:
-Recall: 0.6797872340425531
-Precision: 0.6774193548387096
-F1 Score: 0.678601228855344
-Recall: 0.6797872340425531
-Precision: 0.6774193548387096
-F1 Score: 0.678601228855344
-Macro:
-Recall: 0.28110808252835595
-Precision: 0.2229480671474553
-F1 Score: 0.22540480505762156
-[['NPrePre', 'NStem'], ['NPrePre7', 'BPre7', 'NStem'], ['AdvPre'], ['LocPre|NPrePre6', 'BPre6', 'NStem'], ['SC6', 'AuxVStem|SitSC6', 'VRoot', 'RecipExt', 'VerbTermPerf'], ['AdvPre', 'PronStem2'], ['BPre5', 'NStem'], ['SC15', 'VRoot', 'ApplExt', 'VerbTermPerf'], ['SC5', 'VRoot', 'CausExt', 'PassExt', 'VerbTermPerf'], ['CopPre|NPrePre3', 'BPre3', 'NStem|PossConc9'], ['NPrePre7', 'BPre7', 'NStem'], ['NStem'], ['AdjConc1', 'AdjStem'], ['NPrePre1', 'BPre1', 'NStem'], ['PossConc', 'NPrePre', 'BPre', 'NStem']]
-[['NPrePre5|BPre5', 'NStem'], ['NPrePre7', 'BPre7', 'NStem|PossConc5'], ['Conj'], ['LocPre|NPrePre6', 'BPre6', 'NStem'], ['SC6', 'AuxVStem|SitSC6', 'VRoot', 'RecipExt', 'VerbTermPerf'], ['AdvPre', 'PronStem2'], ['BPre5', 'NStem'], ['SC15', 'VRoot', 'ApplExt', 'VerbTermPerf'], ['SC5', 'VRoot', 'CausExt', 'PassExt', 'VerbTermPerf'], ['CopPre|NPrePre1', 'BPre1', 'NStem'], ['NPrePre7', 'BPre7', 'NStem|PossConc1'], ['NStem'], ['AdjConc1', 'AdjStem'], ['NPrePre1', 'BPre1', 'NStem'], ['PossConc', 'NPrePre', 'BPre', 'NStem']]
+Features Successfully Computed & Model Optimised 0.0014460999999998947
+Data Collected in -0.13336269999999928
+Beginning Feature Computation and Model Optimisation
+Features Successfully Computed & Model Optimised -0.00021549999999948
+Data Collected in -0.15353380000000172
+Beginning Feature Computation and Model Optimisation
+Features Successfully Computed & Model Optimised -0.004518400000002032
+Data Collected in -0.13594659999999692
+Beginning Feature Computation and Model Optimisation
+Features Successfully Computed & Model Optimised -0.00026609999999749334
+Data Collected in -0.12672109999999748
+Beginning Feature Computation and Model Optimisation
+Features Successfully Computed & Model Optimised 0.0044128999999983876
+recall: 0.9681918340894361
+precision: 0.9787725614897302
+f1: 0.973453406321657
 zulu cleaning complete.
 #############################################
 Language: swati
-Data Collected in -0.289952699999958
+Data Collected in -0.16756739999999581
 Beginning Feature Computation and Model Optimisation
-Features Successfully Computed & Model Optimised 0.0029320000003281166
-X_Training: [{'uni_E': 1, 'bi_Et': 1, 'const': 1, 'upper': 1}, {'uni_t': 1, 'bi_Et': 1, 'bi_ts': 1, 'tri_Ets': 1, 'four_Etsu': 1, 'const': 1, 'lower': 1}, {'uni_s': 1, 'bi_ts': 1, 'bi_su': 1, 'tri_tsu': 1, 'four_tsuw': 1, 'four_Etsu': 1, 'five_Etsuw': 1, 'six_Etsuwa': 1, 'const': 1, 'lower': 1}, {'uni_u': 1, 'bi_su': 1, 'bi_uw': 1, 'tri_suw': 1, 'four_suwa': 1, 'four_tsuw': 1, 'five_tsuwa': 1, 'six_Etsuwa': 1, 'six_tsuwa': 1, 'vowel': 1, 'lower': 1}, {'uni_w': 1, 'bi_uw': 1, 'bi_wa': 1, 'tri_uwa': 1, 'four_uwa': 1, 'four_suwa': 1, 'five_suwa': 1, 'six_tsuwa': 1, 'six_suwa': 1, 'const': 1, 'lower': 1}, {'uni_a': 1, 'bi_wa': 1, 'bi_a': 1, 'tri_wa': 1, 'four_wa': 1, 'four_uwa': 1, 'five_uwa': 1, 'six_suwa': 1, 'six_uwa': 1, 'vowel': 1, 'lower': 1}]
-################################
-Y_training: ['B', 'M', 'E', 'B', 'E', 'S']
-################################
-Words Training: ['E', 't', 's', 'u', 'w', 'a']
-############################
-Weighted:
-Recall: 0.9650053022269353
-Precision: 0.9718973514270481
-F1 Score: 0.968262128456722
-Micro:
-Recall: 0.9650053022269353
-Precision: 0.9707702154896523
-F1 Score: 0.9678791746436929
-Macro:
-Recall: 0.9460729958949007
-Precision: 0.9449097333415724
-F1 Score: 0.9452236996891291
-Samples:
-Recall: 0.9640046296296295
-Precision: 0.9693865740740741
-F1 Score: 0.9644378306878307
-Data Collected in -0.6153106000001571
-X_Training: [{'length': 3, 'segment.lower()': 'ets', 'odd': 1, 'begin': 'E', 'end': 's', 'start_lower': 1, 'first_const': 1}, {'length': 2, 'segment.lower()': 'uw', 'even': 1, 'begin': 'u', 'end': 'w', 'start_lower': 1, 'first_const': 1}, {'length': 1, 'segment.lower()': 'a', 'odd': 1, 'begin': 'a', 'end': 'a', 'start_lower': 1, 'first_const': 1}]
-################################
-Y_training: ['vr', 'pas', 've']
-################################
-Words Training: Ets-uw-a
-############################
-Data Processed
-CRF Initialized
-Data Fitted
-['vr', 'rt', 've']
-['vr', 'rt', 've']
-Weighted:
-Recall: 0.9252400548696845
-Precision: 0.8555999063849883
-F1 Score: 0.8835969574885405
-Recall: 0.9252400548696845
-Precision: 0.8820059420502832
-F1 Score: 0.8835969574885405
-Micro:
-Recall: 0.9252400548696845
-Precision: 0.8706034204582124
-F1 Score: 0.8970906068162926
-Recall: 0.9252400548696845
-Precision: 0.8706034204582124
-F1 Score: 0.8970906068162926
-Macro:
-Recall: 0.33142577226036213
-Precision: 0.33147608167110254
-F1 Score: 0.3251133493525927
-[['vr', 'rt', 've'], ['NS'], ['NS'], ['NS'], ['NLOC'], ['NS'], ['NS'], ['vr', 've'], ['NS', 'rts'], ['NS'], ['RK'], ['NS'], ['vr', 'npas', 've'], ['vr', 'per', 'pas', 've'], ['vr']]
-[['vr', 'rt', 've'], ['NS'], ['CPOSS09'], ['NS'], ['CN15'], ['ns'], ['CONJ'], ['vr', 've'], ['NS', 'LOC'], ['NS'], ['RK'], ['NS'], ['vr', 'npas', 've'], ['vr', 'cau', 'pas', 've'], ['vr']]
+Features Successfully Computed & Model Optimised -0.004072699999994711
+Data Collected in -0.08278109999999828
+Beginning Feature Computation and Model Optimisation
+Features Successfully Computed & Model Optimised -0.0024056000000030053
+Data Collected in -0.07616400000000567
+Beginning Feature Computation and Model Optimisation
+Features Successfully Computed & Model Optimised -0.0003264999999998963
+Data Collected in -0.08802599999999927
+Beginning Feature Computation and Model Optimisation
+Features Successfully Computed & Model Optimised -0.004007700000002501
+Data Collected in -0.07879920000000595
+Beginning Feature Computation and Model Optimisation
+Features Successfully Computed & Model Optimised 0.0024526999999920918
+recall: 0.9640077402709094
+precision: 0.971654329294708
+f1: 0.9678157468326372
 swati cleaning complete.
 #############################################
 Language: ndebele
-Data Collected in -0.49324150000029476
+Data Collected in -0.2736941999999942
 Beginning Feature Computation and Model Optimisation
-Features Successfully Computed & Model Optimised 0.0008135999996738974
-X_Training: [{'uni_u': 1, 'bi_uy': 1, 'vowel': 1, 'lower': 1}, {'uni_y': 1, 'bi_uy': 1, 'bi_yi': 1, 'tri_uyi': 1, 'four_uyib': 1, 'const': 1, 'lower': 1}, {'uni_i': 1, 'bi_yi': 1, 'bi_ib': 1, 'tri_yib': 1, 'four_yibh': 1, 'four_uyib': 1, 'five_uyibh': 1, 'six_uyibha': 1, 'vowel': 1, 'lower': 1}, {'uni_b': 1, 'bi_ib': 1, 'bi_bh': 1, 'tri_ibh': 1, 'four_ibha': 1, 'four_yibh': 1, 'five_yibha': 1, 'six_uyibha': 1, 'six_yibhad': 1, 'const': 1, 'lower': 1}, {'uni_h': 1, 'bi_bh': 1, 'bi_ha': 1, 'tri_bha': 1, 'four_bhad': 1, 'four_ibha': 1, 'five_ibhad': 1, 'six_yibhad': 1, 'six_ibhade': 1, 'const': 1, 'lower': 1}, {'uni_a': 1, 'bi_ha': 1, 'bi_ad': 1, 'tri_had': 1, 'four_hade': 1, 'four_bhad': 1, 'five_bhade': 1, 'six_ibhade': 1, 'six_bhadel': 1, 'vowel': 1, 'lower': 1}, {'uni_d': 1, 'bi_ad': 1, 'bi_de': 1, 'tri_ade': 1, 'four_adel': 1, 'four_hade': 1, 'five_hadel': 1, 'six_bhadel': 1, 'six_hadele': 1, 'const': 1, 'lower': 1}, {'uni_e': 1, 'bi_de': 1, 'bi_el': 1, 'tri_del': 1, 'four_dele': 1, 'four_adel': 1, 'five_adele': 1, 'six_hadele': 1, 'six_adele': 1, 'vowel': 1, 'lower': 1}, {'uni_l': 1, 'bi_el': 1, 'bi_le': 1, 'tri_ele': 1, 'four_ele': 1, 'four_dele': 1, 'five_dele': 1, 'six_adele': 1, 'six_dele': 1, 'const': 1, 'lower': 1}, {'uni_e': 1, 'bi_le': 1, 'bi_e': 1, 'tri_le': 1, 'four_le': 1, 'four_ele': 1, 'five_ele': 1, 'six_dele': 1, 'six_ele': 1, 'vowel': 1, 'lower': 1}]
-################################
-Y_training: ['S', 'B', 'E', 'B', 'M', 'M', 'E', 'B', 'E', 'S']
-################################
-Words Training: ['u', 'y', 'i', 'b', 'h', 'a', 'd', 'e', 'l', 'e']
-############################
-Weighted:
-Recall: 0.9671765929006386
-Precision: 0.9782585497747759
-F1 Score: 0.9726304659900188
-Micro:
-Recall: 0.9671765929006386
-Precision: 0.9788065534345408
-F1 Score: 0.9729568205587927
-Macro:
-Recall: 0.9613613395620402
-Precision: 0.9739996905119815
-F1 Score: 0.9675764567892482
-Samples:
-Recall: 0.96808314937454
-Precision: 0.9792586460632818
-F1 Score: 0.970230211289814
-Data Collected in -0.7334270000001197
-X_Training: [{'length': 1, 'segment.lower()': 'u', 'odd': 1, 'begin': 'u', 'end': 'u', 'start_lower': 1, 'first_vowel': 1}, {'length': 2, 'segment.lower()': 'yi', 'even': 1, 'begin': 'y', 'end': 'i', 'start_lower': 1, 'first_vowel': 1}, {'length': 4, 'segment.lower()': 'bhad', 'even': 1, 'begin': 'b', 'end': 'd', 'start_lower': 1, 'first_vowel': 1}, {'length': 2, 'segment.lower()': 'el', 'even': 1, 'begin': 'e', 'end': 'l', 'start_lower': 1, 'first_vowel': 1}, {'length': 1, 'segment.lower()': 'e', 'odd': 1, 'begin': 'e', 'end': 'e', 'start_lower': 1, 'first_vowel': 1}]
-################################
-Y_training: ['SC2', 'OC9', 'VRoot', 'ApplExt', 'VerbTermPerf']
-################################
-Words Training: u-yi-bhad-el-e
-############################
-Data Processed
-CRF Initialized
-Data Fitted
-['OC5', 'VRoot', 'VerbTerm']
-['CopPre', 'VRoot', 'VerbTerm']
-Weighted:
-Recall: 0.7316421895861148
-Precision: 0.7283871087612673
-F1 Score: 0.706586202777476
-Recall: 0.7316421895861148
-Precision: 0.7543264564629649
-F1 Score: 0.706586202777476
-Micro:
-Recall: 0.7316421895861148
-Precision: 0.7196998123827392
-F1 Score: 0.7256218670197674
-Recall: 0.7316421895861148
-Precision: 0.7196998123827392
-F1 Score: 0.7256218670197674
-Macro:
-Recall: 0.2613528092176837
-Precision: 0.21677734677207988
-F1 Score: 0.2202320160556173
-[['OC5', 'VRoot', 'VerbTerm'], ['NPre|NPrePre', 'BPre', 'NStem', 'LocSuf'], ['BPre15', 'VRoot', 'VerbTermPerf'], ['OC15', 'VRoot', 'VerbTerm'], ['OC5', 'VRoot', 'CausExt', 'PassExt', 'VerbTerm'], ['SC9', 'Pot', 'VRoot', 'VerbTermNeg'], ['AdjConc1', 'AdjStem'], ['NPrePre1', 'BPre1', 'NStem'], ['Adv'], ['SC1', 'OC2', 'VRoot', 'VerbTerm'], ['SC2', 'VRoot', 'VerbTermPerf'], ['NPrePre3', 'BPre3', 'NStem'], ['CopPre', 'PronStem15'], ['BPre5', 'NStem|AdvPre|NPrePre5'], ['NPrePre', 'BPre', 'NStem', 'LocSuf']]
-[['CopPre', 'VRoot', 'VerbTerm'], ['NPre', 'BPre', 'NStem', 'LocSuf'], ['RelConc', 'Intrans', 'VerbTerm'], ['OC15', 'VRoot', 'VerbTerm'], ['OC5', 'VRoot', 'CausExt', 'PassExt', 'VerbTerm'], ['SC9', 'NegPre', 'VRoot', 'VerbTermNeg'], ['AdjConc3', 'AdjStem'], ['NPrePre1', 'BPre1', 'NStem'], ['Adv'], ['SC1', 'OC2', 'VRoot', 'VerbTerm'], ['SC2', 'VRoot', 'VerbTermPerf'], ['NPrePre3', 'BPre3', 'NStem'], ['PossConc9', 'PronStem2'], ['BPre5', 'NStem|PossConc9|NPrePre5'], ['NPrePre7', 'BPre7', 'NStem', 'LocSuf']]
+Features Successfully Computed & Model Optimised 0.003951100000008978
+Data Collected in -0.13304990000000316
+Beginning Feature Computation and Model Optimisation
+Features Successfully Computed & Model Optimised -0.0005101999999936879
+Data Collected in -0.09376559999999756
+Beginning Feature Computation and Model Optimisation
+Features Successfully Computed & Model Optimised -0.002446500000004903
+Data Collected in -0.10427669999999978
+Beginning Feature Computation and Model Optimisation
+Features Successfully Computed & Model Optimised 0.002909899999991694
+Data Collected in -0.10908139999999378
+Beginning Feature Computation and Model Optimisation
+Features Successfully Computed & Model Optimised -0.0009217000000063535
+recall: 0.9661676646706587
+precision: 0.9793924046724314
+f1: 0.9727350577617324
 ndebele cleaning complete.
 #############################################
 Language: xhosa
-Data Collected in -0.3802166000004945
+Data Collected in -0.12768679999999222
 Beginning Feature Computation and Model Optimisation
-Features Successfully Computed & Model Optimised -0.0009096000003410154
-X_Training: [{'uni_e': 1, 'bi_ek': 1, 'vowel': 1, 'lower': 1}, {'uni_k': 1, 'bi_ek': 1, 'bi_ku': 1, 'tri_eku': 1, 'four_ekub': 1, 'const': 1, 'lower': 1}, {'uni_u': 1, 'bi_ku': 1, 'bi_ub': 1, 'tri_kub': 1, 'four_kubo': 1, 'four_ekub': 1, 'five_ekubo': 1, 'six_ekubon': 1, 'vowel': 1, 'lower': 1}, {'uni_b': 1, 'bi_ub': 1, 'bi_bo': 1, 'tri_ubo': 1, 'four_ubon': 1, 'four_kubo': 1, 'five_kubon': 1, 'six_ekubon': 1, 'six_kuboni': 1, 'const': 1, 'lower': 1}, {'uni_o': 1, 'bi_bo': 1, 'bi_on': 1, 'tri_bon': 1, 'four_boni': 1, 'four_ubon': 1, 'five_uboni': 1, 'six_kuboni': 1, 'six_ubonis': 1, 'vowel': 1, 'lower': 1}, {'uni_n': 1, 'bi_on': 1, 'bi_ni': 1, 'tri_oni': 1, 'four_onis': 1, 'four_boni': 1, 'five_bonis': 1, 'six_ubonis': 1, 'six_bonisa': 1, 'const': 1, 'lower': 1}, {'uni_i': 1, 'bi_ni': 1, 'bi_is': 1, 'tri_nis': 1, 'four_nisa': 1, 'four_onis': 1, 'five_onisa': 1, 'six_bonisa': 1, 'six_onisa': 1, 'vowel': 1, 'lower': 1}, {'uni_s': 1, 'bi_is': 1, 'bi_sa': 1, 'tri_isa': 1, 'four_isa': 1, 'four_nisa': 1, 'five_nisa': 1, 'six_onisa': 1, 'six_nisa': 1, 'const': 1, 'lower': 1}, {'uni_a': 1, 'bi_sa': 1, 'bi_a': 1, 'tri_sa': 1, 'four_sa': 1, 'four_isa': 1, 'five_isa': 1, 'six_nisa': 1, 'six_isa': 1, 'vowel': 1, 'lower': 1}]
-################################
-Y_training: ['S', 'B', 'E', 'S', 'B', 'E', 'B', 'E', 'S']
-################################
-Words Training: ['e', 'k', 'u', 'b', 'o', 'n', 'i', 's', 'a']
-############################
-Weighted:
-Recall: 0.9717238409645471
-Precision: 0.9707582419242123
-F1 Score: 0.9712279689697819
-Micro:
-Recall: 0.9717238409645471
-Precision: 0.9704701834862385
-F1 Score: 0.9710966076167252
-Macro:
-Recall: 0.9659132250033713
-Precision: 0.9639611474627423
-F1 Score: 0.9649204493186927
-Samples:
-Recall: 0.9719794344473007
-Precision: 0.9704370179948586
-F1 Score: 0.967927530909536
-Data Collected in -0.846941799999513
-X_Training: [{'length': 1, 'segment.lower()': 'e', 'odd': 1, 'begin': 'e', 'end': 'e', 'start_lower': 1, 'first_vowel': 1}, {'length': 2, 'segment.lower()': 'ku', 'even': 1, 'begin': 'k', 'end': 'u', 'start_lower': 1, 'first_vowel': 1}, {'length': 1, 'segment.lower()': 'b', 'odd': 1, 'begin': 'b', 'end': 'b', 'start_lower': 1, 'first_vowel': 1}, {'length': 2, 'segment.lower()': 'on', 'even': 1, 'begin': 'o', 'end': 'n', 'start_lower': 1, 'first_vowel': 1}, {'length': 2, 'segment.lower()': 'is', 'even': 1, 'begin': 'i', 'end': 's', 'start_lower': 1, 'first_vowel': 1}, {'length': 1, 'segment.lower()': 'a', 'odd': 1, 'begin': 'a', 'end': 'a', 'start_lower': 1, 'first_vowel': 1}]
-################################
-Y_training: ['LocPre|NPrePre15', 'BPre15', 'OC2', 'VRoot', 'CausExt', 'VerbTerm']
-################################
-Words Training: e-ku-b-on-is-a
-############################
-Data Processed
-CRF Initialized
-Data Fitted
-['NPrePre', 'NStem']
-['NPrePre', 'NStem']
-Weighted:
-Recall: 0.666906345497034
-Precision: 0.7121836073357204
-F1 Score: 0.6201803473362363
-Recall: 0.666906345497034
-Precision: 0.7531686873285299
-F1 Score: 0.6201803473362363
-Micro:
-Recall: 0.666906345497034
-Precision: 0.6627366916755985
-F1 Score: 0.6648149807364931
-Recall: 0.666906345497034
-Precision: 0.6627366916755985
-F1 Score: 0.6648149807364931
-Macro:
-Recall: 0.28710027383822756
-Precision: 0.24890085579338475
-F1 Score: 0.244906621272641
-[['NPrePre', 'NStem'], ['NPrePre7', 'BPre7', 'NStem'], ['RelConc1', 'AdvPre', 'AdjStem'], ['Dem9, Pos1'], ['BPre15', 'VRoot', 'VerbTerm'], ['SC4', 'VRoot', 'PassExt', 'VerbTermPerf'], ['NStem'], ['NPrePre3', 'BPre3', 'NStem'], ['NPrePre7', 'BPre7', 'NStem|PossConc4'], ['BPre15', 'NegPre', 'Adv'], ['NPrePre7', 'BPre7', 'NStem'], ['HortPre', 'HortSC1', 'VRoot', 'VerbTermNeg'], ['BPre15', 'VRoot', 'PassExt', 'VerbTerm'], ['VRoot', 'VerbTerm'], ['SC1', 'VRoot', 'VerbTermPerf']]
-[['NPrePre', 'NStem'], ['NPrePre7', 'BPre7', 'NStem|PossConc4'], ['RelConc1', 'AdvPre', 'AdjStem'], ['Dem9, Pos1'], ['BPre15', 'VRoot', 'VerbTerm'], ['SC4', 'VRoot', 'PassExt', 'VerbTermPerf'], ['Ideoph'], ['NPrePre1', 'BPre1', 'NStem'], ['NPrePre7', 'BPre7', 'NStem|PossConc1'], ['NPrePre9', 'BPre9', 'NStem|SC15|AdvPre'], ['NPrePre7', 'BPre7', 'NStem'], ['NegPre', 'SC1', 'VRoot', 'VerbTermNeg'], ['BPre15', 'VRoot', 'PassExt', 'VerbTerm'], ['VRoot', 'VerbTerm'], ['SC1', 'VRoot', 'VerbTermPerf']]
+Features Successfully Computed & Model Optimised -0.004487599999990266
+Data Collected in -0.1391083999999978
+Beginning Feature Computation and Model Optimisation
+Features Successfully Computed & Model Optimised -0.003257599999997751
+Data Collected in -0.12028159999999843
+Beginning Feature Computation and Model Optimisation
+Features Successfully Computed & Model Optimised -0.0013164000000074338
+Data Collected in -0.11232100000000855
+Beginning Feature Computation and Model Optimisation
+Features Successfully Computed & Model Optimised 0.004264199999994389
+Data Collected in -0.12259840000001532
+Beginning Feature Computation and Model Optimisation
+Features Successfully Computed & Model Optimised -0.003807899999998199
+recall: 0.9712903225806452
+precision: 0.9716037588086628
+f1: 0.9714469435373754
 xhosa cleaning complete.
 #############################################
 

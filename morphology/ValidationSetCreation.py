@@ -1,11 +1,23 @@
 class ValidationSet:
+    """
+    Class that creates the validation set
+    """
+
     def __init__(self, filename: str):
+        """
+        Constructor for class
+        :param filename: name of file to create dev set from
+        """
         self.file_name = filename
         self.training_file = open(filename, "r")
         self.lines = self.training_file.readlines()
         self.line_count = len(self.lines)
 
     def create_validation_set(self, filename: str):
+        """
+        Method that creates validation set
+        :param filename: name of dev set file
+        """
         """Method used to develop the dev set from the training set"""
         validation_file = open(filename, "w")
         training_file_updated_content = ""

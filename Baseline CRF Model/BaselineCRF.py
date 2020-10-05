@@ -1,21 +1,33 @@
-import sklearn_crfsuite
-import sklearn
-from sklearn.metrics import precision_score, f1_score, recall_score
-from sklearn_crfsuite import metrics
-from sklearn.preprocessing import MultiLabelBinarizer
-import time
 import os
 import sys
+import time
+
+import sklearn_crfsuite
+from sklearn.metrics import precision_score, f1_score, recall_score
+from sklearn.preprocessing import MultiLabelBinarizer
 
 
 class BaselineCRF:
+    """
+    Baseline CRF implemented using sklearncrf_suite
+    """
+
     def __init__(self, language: str):
+        """
+        The constructor function for the baseline CRF that takes in the name of the language and looks for the file
+         corresponding to that language in the morphology folder
+        :param language: string of the language that particular model should focus on
+        """
         self.input_files = ["../morphology/" + language + '/' + language + ".clean.train.conll",
                             "../morphology/" + language + '/' + language + ".clean.dev.conll",
                             "../morphology/" + language + '/' + language + ".clean.test.conll"]
+        self.language = language
 
     def surface_segmentation(self):
-        """This method is used to perform the surface segmentation"""
+        """
+        This method makes use of sklearn crfsuite to perform surface segmentation
+        :return: list of predicted segments and list of correct segments
+        """
         tic = time.perf_counter()
         # Collect the Data
         ##################################################
@@ -50,14 +62,14 @@ class BaselineCRF:
                         for i in range(len(morph) - 2):
                             label += 'M'
                         label += 'E'
+
                 # current dictionary being referenced
                 # Key is word and value is segmented form
                 # print(content)
                 dictionaries[counter][content[0]] = label
 
-            input_file.close()
+            # input_file.close()
             counter += 1
-
         toc = time.perf_counter()
         print("Data Collected in " + str(tic - toc.__round__(2)))
 
@@ -96,10 +108,10 @@ class BaselineCRF:
         best_max_iteration = 160
         best_epsilon = 1e-07
 
-        #a, b, c = surface_segment_data_preparation(training_data)
-        #print("X_Training: " + str(a[len(a) - 1]) + "\n################################")
-        #print("Y_training: " + str(b[len(b) - 1]) + "\n################################")
-        #print("Words Training: " + str(c[len(c) - 1]) + "\n############################")
+        # a, b, c = surface_segment_data_preparation(training_data)
+        # print("X_Training: " + str(a[len(a) - 1]) + "\n################################")
+        # print("Y_training: " + str(b[len(b) - 1]) + "\n################################")
+        # print("Words Training: " + str(c[len(c) - 1]) + "\n############################")
 
         X_training, Y_training, words_training = surface_segment_data_preparation(training_data)
         X_dev, Y_dev, words_dev = surface_segment_data_preparation(dev_data)
@@ -108,10 +120,14 @@ class BaselineCRF:
         crf.fit(X_training, Y_training, X_dev=X_dev, y_dev=Y_dev)
 
         Y_predict = crf.predict(X_test)
+
         return Y_predict, Y_test
 
     def surface_labelled_segmentation(self):
-        """This method is used to label the surface segments"""
+        """
+        This method makes use of sklearn crfsuite to perform segment labelling of correct segments
+        :return: list of predicted labels and list of correct labels
+        """
         tic = time.perf_counter()
 
         # Collect the data
@@ -136,7 +152,6 @@ class BaselineCRF:
 
         # Evaluate Model On the Test Set Using Optimised Model
         #######################################################
-
 
         best_delta = 8
         best_epsilon = 0.0000001
@@ -187,40 +202,147 @@ class BaselineCRF:
         )'''
         crf = sklearn_crfsuite.CRF(algorithm='ap', epsilon=best_epsilon, max_iterations=best_max_iteration)
         print("CRF Initialized")
-        #crf.fit(X_training, Y_training, X_dev=X_dev, y_dev=Y_dev)
+        # crf.fit(X_training, Y_training, X_dev=X_dev, y_dev=Y_dev)
         crf.fit(X_training, Y_training)
         print("Data Fitted")
         Y_predict = crf.predict(X_test)
-        #print(Y_predict[0])
-        #print(Y_test[0])
+        # print(Y_predict[0])
+        # print(Y_test[0])
         labels = list(crf.classes_)
         sorted_labels = sorted(labels)
         return Y_predict, Y_test, sorted_labels
 
-    def results(self, Y_predict, Y_test):
-        # print(metrics.flat_accuracy_score(Y_test, Y_predict))
-        # print(metrics.flat_precision_score(Y_test, Y_predict))
-        # print(metrics.flat_f1_score(Y_test, Y_predict))
+    def __surface_labelled_segmentation_pipeline(self, features):
+        """
+        This method makes use of sklearn crfsuite to perform segment labelling of predicted segments
+        :param features: features of the predicted segments
+        :return: list of predicted labels and list of correct labels
+        """
+        tic = time.perf_counter()
 
-        test = MultiLabelBinarizer().fit_transform(Y_test)
-        predicted = MultiLabelBinarizer().fit_transform(Y_predict)
+        # Collect the data
+        ###########################################
+        training_data, dev_data, test_data = {}, {}, {}
+        dictionaries = (training_data, dev_data, test_data)
+        counter = 0
+        for file in self.input_files:
+            input_file = open(os.path.join(sys.path[0], file), 'r')
+            for line in input_file.readlines():
+                content = line.rstrip('\n').split(" | ")
+                labels = '-'.join(get_labels(content[2]))
+                segments = removeLabels(content[2])
 
-        print('Micro:')
-        print("Recall: " + str(recall_score(test, predicted, average='micro')))
-        print("Precision: " + str(precision_score(test, predicted, average='micro')))
-        print("F1 Score: " + str(f1_score(test, predicted, average='micro')))
+                # dictionaries[counter][content[0]] = [segments, labels] # word:[[segments],[labels]]
+                dictionaries[counter][segments] = labels  # segments : labels
+            input_file.close()
+            counter += 1
 
-    def results_labelled(self, Y_predict, Y_test, labels):
+        toc = time.perf_counter()
+        print("Data Collected in " + str(tic - toc.__round__(2)))
 
-        test = Y_test
-        predicted = Y_predict
-        print('Micro:')
-        print("Recall: " + str(metrics.flat_recall_score(test, predicted, average='micro', labels=labels, zero_division=0)))
-        print("Precision: " + str(metrics.flat_precision_score(test, predicted, average='micro', labels=labels, zero_division=0)))
-        print("F1 Score: " + str(metrics.flat_f1_score(test, predicted, average='micro', labels=labels, zero_division=0)))
+        # Evaluate Model On the Test Set Using Optimised Model
+        #######################################################
+
+        print("Beginning Feature Computation and Model Optimisation")
+        tic = time.perf_counter()
+
+        X_training, Y_training, words_training = surface_labelled_data_preparation(training_data)
+        X_dev, Y_dev, words_dev = surface_labelled_data_preparation(dev_data)
+        X_test, Y_test, words_test = surface_labelled_data_preparation(test_data)
+        print("Data Processed")
+
+        best_epsilon = 1e-07
+        best_max_iteration = 280
+        best_algo = 'ap'
+
+        # crf = sklearn_crfsuite.CRF(algorithm=best_algo, epsilon=best_epsilon, max_iterations=best_max_iteration)
+        '''crf = sklearn_crfsuite.CRF(
+            algorithm='lbfgs',
+            c1=0.1,
+            c2=0.1,
+            max_iterations=100,
+            all_possible_transitions=True
+        )'''
+        crf = sklearn_crfsuite.CRF(algorithm='ap', epsilon=best_epsilon, max_iterations=best_max_iteration)
+        print("CRF Initialized")
+        # crf.fit(X_training, Y_training, X_dev=X_dev, y_dev=Y_dev)
+        crf.fit(X_training, Y_training)
+        print("Data Fitted")
+        Y_predict = crf.predict(features)
+        labels = list(crf.classes_)
+        sorted_labels = sorted(labels)
+        return Y_predict, Y_test
+
+    def pipeline(self):
+        """
+        This method makes use of sklearn crfsuite to perform segment labelling of predicted segments
+        :return: list of predicted labels and list of correct labels
+        """
+        predicted, real = self.surface_segmentation()
+        # print(predicted[0:10])
+        # print(len(predicted))
+        test_file = "../morphology/" + self.language + "/" + self.language + ".clean.test.conll"
+        input_file = open(os.path.join(sys.path[0], test_file), 'r')
+        segmented_words = []
+
+        # Only one entry per word for dictionary
+
+        words = []
+        labels = []
+        for line in input_file.readlines():
+            tmp = line.rstrip('\n').split(" | ")[0]
+            label_arr = line.rstrip('\n').split(" | ")[2]
+            label_arr = get_labels(label_arr)
+            if tmp not in words:
+                words.append(tmp)
+                labels.append(label_arr)
+
+        segmented_words = []
+        for word, label in zip(words, predicted):
+            tmp = []
+            for i in range(len(label)):
+                if label[i] == "S" or label[i] == "E":
+                    tmp.append(word[i])
+                    tmp.append("-")
+                else:
+                    tmp.append(word[i])
+            tmp = "".join(tmp).rstrip("-")
+            segmented_words.append(tmp)
+
+        features = surface_labelled_data_preparation_pipeline(segmented_words)
+        predicted, test = self.__surface_labelled_segmentation_pipeline(features)
+        return predicted, labels
+
+
+def eval_morph_segments(predicted, target):
+    """
+    Method used to calculate precision, recall and f1 score particularly useful where corresponding inner lists
+    may be of different lengths
+    :param predicted: the list of predicted labels
+    :param target: the list of actual values
+    :return: precision, recall and f1 score
+    """
+    correct = 0.0
+    for pred, targ in zip(predicted, target):
+        for p in pred:
+            if p in targ:
+                correct += 1
+
+    predicted_length = sum([len(pred) for pred in predicted])
+    target_length = sum([len(targ) for targ in target])
+
+    precision, recall = correct / predicted_length, correct / target_length
+    f_score = 2 / (1 / precision + 1 / recall)
+    return precision, recall, f_score
+
 
 def surface_segment_data_preparation(word_dictionary: {str, str}):
-    """"This Method is used to prepare data for the crf that is performing the surface segmentation"""
+    """
+    This Method is used to generate features for the crf that is performing the surface segmentation
+    :param word_dictionary: A word dictionary with the keys being the words and the value being the list of labels
+    corresponding to each character
+    :return: List of features, List of Correct Labels, The word as a list
+    """
     X = []
     Y = []
     words = []
@@ -241,16 +363,18 @@ def surface_segment_data_preparation(word_dictionary: {str, str}):
                 tmp = word[i - 1: i + 1]
                 if tmp:
                     # gram_dict[tmp] = 1
-                    gram_dict["bi_" + tmp] = 1
-                    gram_arr.append(tmp)
+                    if len(tmp) == 2:
+                        gram_dict["bi_" + tmp] = 1
+                        gram_arr.append(tmp)
             except IndexError:
                 continue
             try:
                 tmp = word[i: i + 2]
                 if tmp:
                     # gram_dict[tmp] = 1
-                    gram_dict["bi_" + tmp] = 1
-                    gram_arr.append(tmp)
+                    if len(tmp) == 2:
+                        gram_dict["bi_" + tmp] = 1
+                        gram_arr.append(tmp)
             except IndexError:
                 continue
 
@@ -259,8 +383,9 @@ def surface_segment_data_preparation(word_dictionary: {str, str}):
                 tmp = word[i - 1: i + 2]
                 if tmp:
                     # gram_dict[tmp] = 1
-                    gram_dict["tri_" + tmp] = 1
-                    gram_arr.append(tmp)
+                    if len(tmp) == 3:
+                        gram_dict["tri_" + tmp] = 1
+                        gram_arr.append(tmp)
             except IndexError:
                 continue
 
@@ -269,8 +394,9 @@ def surface_segment_data_preparation(word_dictionary: {str, str}):
                 tmp = word[i - 1: i + 3]
                 if tmp:
                     # gram_dict[tmp] = 1
-                    gram_dict["four_" + tmp] = 1
-                    gram_arr.append(tmp)
+                    if len(tmp) == 4:
+                        gram_dict["four_" + tmp] = 1
+                        gram_arr.append(tmp)
             except IndexError:
                 continue
 
@@ -278,8 +404,9 @@ def surface_segment_data_preparation(word_dictionary: {str, str}):
                 tmp = word[i - 2: i + 2]
                 if tmp:
                     # gram_dict[tmp] = 1
-                    gram_dict["four_" + tmp] = 1
-                    gram_arr.append(tmp)
+                    if len(tmp) == 4:
+                        gram_dict["four_" + tmp] = 1
+                        gram_arr.append(tmp)
             except IndexError:
                 continue
 
@@ -288,8 +415,9 @@ def surface_segment_data_preparation(word_dictionary: {str, str}):
                 tmp = word[i - 2: i + 3]
                 if tmp:
                     # gram_dict[tmp] = 1
-                    gram_dict["five_" + tmp] = 1
-                    gram_arr.append(tmp)
+                    if len(tmp) == 5:
+                        gram_dict["five_" + tmp] = 1
+                        gram_arr.append(tmp)
             except IndexError:
                 continue
 
@@ -297,18 +425,20 @@ def surface_segment_data_preparation(word_dictionary: {str, str}):
             try:
                 tmp = word[i - 3: i + 3]
                 if tmp:
-                    # gram_dict[tmp] = 1
-                    gram_dict["six_" + tmp] = 1
-                    gram_arr.append(tmp)
+                    if len(tmp) == 6:
+                        # gram_dict[tmp] = 1
+                        gram_dict["six_" + tmp] = 1
+                        gram_arr.append(tmp)
             except IndexError:
                 continue
 
             try:
                 tmp = word[i - 2: i + 4]
                 if tmp:
-                    # gram_dict[tmp] = 1
-                    gram_dict["six_" + tmp] = 1
-                    gram_arr.append(tmp)
+                    if len(tmp) == 6:
+                        # gram_dict[tmp] = 1
+                        gram_dict["six_" + tmp] = 1
+                        gram_arr.append(tmp)
             except IndexError:
                 continue
 
@@ -330,8 +460,14 @@ def surface_segment_data_preparation(word_dictionary: {str, str}):
         words.append([char for char in word])
     return X, Y, words
 
+
 def surface_labelled_data_preparation(word_dictionary: {str, str}):
-    # nge-zin-konzo : NPre-BPre-NStem
+    """
+    This Method is used to generate features for the crf that is performing the segment labelling
+    :param word_dictionary: A word dictionary with the keys being the words and the value being the list of labels
+    corresponding to each segment
+    :return: List of features, List of Correct Labels, The list of segments
+    """
     X = []
     Y = []
     words = []
@@ -358,10 +494,10 @@ def surface_labelled_data_preparation(word_dictionary: {str, str}):
             features['end'] = segments[i][len(segments[i]) - 1]
 
             try:
-                features['prev_segment'] = segments[i-1]
+                features['prev_segment'] = segments[i - 1]
             except IndexError:
                 features['prev_segment'] = ''
-                #continue
+                # continue
 
             try:
                 features['next_segment'] = segments[i + 1]
@@ -387,9 +523,70 @@ def surface_labelled_data_preparation(word_dictionary: {str, str}):
 
     return X, Y, words
 
+
+def surface_labelled_data_preparation_pipeline(word_list: [str]):
+    """
+    This Method is used to generate features for the crf that is performing the pipeline segment labelling
+    :param word_list: A list of words
+    :return: List of features
+    """
+    X = []
+
+    for word in word_list:
+        segments = word.split('-')
+        segment_features = []
+        for i in range(len(segments)):
+            features = {}
+
+            segment_length = len(segments[i])
+            features['length'] = segment_length
+
+            features['segment.lower()'] = segments[i].lower()
+            features['pos_in_word'] = i
+
+            if segment_length % 2 == 0:
+                features['even'] = 1
+            else:
+                features['odd'] = 1
+
+            features['begin'] = segments[i][0]
+            features['end'] = segments[i][len(segments[i]) - 1]
+
+            try:
+                features['prev_segment'] = segments[i - 1]
+            except IndexError:
+                features['prev_segment'] = ''
+                # continue
+
+            try:
+                features['next_segment'] = segments[i + 1]
+            except IndexError:
+                features['next_segment'] = ''
+
+            if segments[0].isupper():
+                features['start_upper'] = 1
+            else:
+                features['start_lower'] = 1
+
+            if segments[0] in 'aeiou':
+                features['first_vowel'] = 1
+            else:
+                features['first_const'] = 1
+
+            segment_features.append(features)
+
+        X.append(segment_features)
+
+    return X
+
+
 def removeLabels(str2: str):
-    """Method to remove labels from the orthographic segmentation so this form
-    can be used to generate the surface segmentation"""
+    """
+    Method to remove labels from the orthographic segmentation so this form
+    can be used to generate the surface segmentation
+    :param str2: orthographic form
+    :return: segmented orthographic form of word
+    """
     str2_arr = []
     last_seen_bracket = []
     for char in str2:
@@ -424,6 +621,11 @@ def removeLabels(str2: str):
 
 
 def get_labels(orthographic: str):
+    """
+    Method to get the labels from the orthographic form of the word
+    :param orthographic: the orthographic form of the word with labels included
+    :return: a list of the labels in the word
+    """
     labels = []
     tmp = ''
     tag = False
@@ -440,7 +642,14 @@ def get_labels(orthographic: str):
             tmp += char
     return labels
 
-def x_run_average_surface(num:int, language:str):
+
+def x_run_average_surface(num: int, language: str):
+    """
+    Method to perform the surface segmentation 'num' times to get average over all runs
+    :param num: The number of times to run the model to get average scores
+    :param language: The language the model should operate on
+    :return: The average precision, recall and f1 scores across all num runs
+    """
     recall, precision, f1 = [], [], []
     for i in range(num):
         CRF = BaselineCRF(language)
@@ -458,15 +667,23 @@ def x_run_average_surface(num:int, language:str):
     f1 = sum(f1) / len(f1)
     return recall, precision, f1
 
-def x_run_average_labelled(num:int, language:str):
+
+def x_run_average_labelled(num: int, language: str):
+    """
+    Method to perform the segment labelling of correct segments 'num' times to get average over all runs
+    :param num: The number of times to run the model to get average scores
+    :param language: The language the model should operate on
+    :return: The average precision, recall and f1 scores across all num runs
+    """
     recall, precision, f1 = [], [], []
     for i in range(num):
-        CRF = BaselineCRF(lang)
+        CRF = BaselineCRF(language)
         predict, test, labels = CRF.surface_labelled_segmentation()
 
-        recall.append(metrics.flat_recall_score(test, predict, average='micro', labels=labels, zero_division=0))
-        precision.append(metrics.flat_precision_score(test, predict, average='micro', labels=labels, zero_division=0))
-        f1.append(metrics.flat_f1_score(test, predict, average='micro', labels=labels, zero_division=0))
+        p, r, f = eval_morph_segments(predict, test)
+        precision.append(p)
+        recall.append(r)
+        f1.append(f)
 
     recall = sum(recall) / len(recall)
     precision = sum(precision) / len(precision)
@@ -474,17 +691,23 @@ def x_run_average_labelled(num:int, language:str):
     return recall, precision, f1
 
 
-languages = ["zulu", "swati", "ndebele", "xhosa"]
+def x_run_average_pipeline(num: int, language: str):
+    """
+    Method to perform the segment labelling of predicted segments 'num' times to get average over all runs
+    :param num: The number of times to run the model to get average scores
+    :param language: The language the model should operate on
+    :return: The average precision, recall and f1 scores across all num runs
+    """
+    precision, recall, f1 = [], [], []
+    for i in range(num):
+        CRF = BaselineCRF(language)
+        predicted, labels = CRF.pipeline()
+        p, r, f = eval_morph_segments(predicted, labels)
+        precision.append(p)
+        recall.append(r)
+        f1.append(f)
 
-for lang in languages:
-    print("Language: " + lang)
-    x, y, z = x_run_average_labelled(5, lang)
-    print("recall: "+str(x))
-    print("precision: "+str(y))
-    print("f1: "+str(z))
-    #CRF = BaselineCRF(lang)
-    #x, y = CRF.surface_segmentation()
-    #CRF.results(x, y)
-    #x, y, z = CRF.surface_labelled_segmentation()
-    #CRF.results_labelled(x, y, z)
-    print(lang + " cleaning complete.\n#############################################")
+    recall = sum(recall) / len(recall)
+    precision = sum(precision) / len(precision)
+    f1 = sum(f1) / len(f1)
+    return recall, precision, f1

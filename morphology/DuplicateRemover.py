@@ -1,10 +1,19 @@
 import os
 import sys
+
 from morphology.Symbols import Symbols
 
 
 class DuplicateRemover:
+    """
+    Class that will handle the removal of words in training set and test set from training set
+    """
+
     def __init__(self, language: str):
+        """
+        Constructor for class
+        :param language: string of the language
+        """
         test = language + '/' + language + '.test.conll'
         train = language + '/' + language + '.train.conll'
         out = language + '/' + language + '.unique.train.conll'
@@ -51,12 +60,3 @@ class DuplicateRemover:
         for line in trainingWords:
             self.output_file.write(line)
         self.output_file.close()
-
-
-languages = ["zulu", "swati", "ndebele", "xhosa"]
-
-for lang in languages:
-    print("Language: " + lang)
-    dupe = DuplicateRemover(lang)
-    dupe.removeDuplicates()
-    print(lang + " cleaning complete.\n############################")

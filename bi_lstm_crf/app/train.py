@@ -1,9 +1,11 @@
 from os import mkdir
-from tqdm import tqdm
-import pandas as pd
+
 import numpy as np
+import pandas as pd
 import torch.optim as optim
 from torch.utils.data import TensorDataset, DataLoader
+from tqdm import tqdm
+
 from bi_lstm_crf.app.preprocessing import *
 from bi_lstm_crf.app.utils import *
 
@@ -66,7 +68,7 @@ def train(args):
             loss.backward()
             optimizer.step()
             bar.set_description("{:2d}/{} loss: {:5.2f}, val_loss: {:5.2f}".format(
-                epoch+1, args.num_epoch, loss, val_loss))
+                epoch + 1, args.num_epoch, loss, val_loss))
             losses.append([epoch, bi, loss.item(), np.nan])
 
         # evaluation

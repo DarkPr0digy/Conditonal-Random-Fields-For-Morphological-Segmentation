@@ -1,5 +1,7 @@
 from os.path import exists, join
+
 import torch
+
 from bi_lstm_crf.model import BiRnnCrf
 
 FILE_ARGUMENTS = "arguments.json"

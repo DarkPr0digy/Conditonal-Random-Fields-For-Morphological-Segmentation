@@ -1,5 +1,7 @@
 import argparse
+
 import numpy as np
+
 from bi_lstm_crf.app.preprocessing import *
 from bi_lstm_crf.app.utils import *
 
@@ -54,12 +56,12 @@ class WordsTagger:
         def _tokens(sentence, ts):
             #################################
             begins = [(idx, t[2:]) for idx, t in enumerate(ts) if t[0] in begin_tags + "O"] + [(len(ts), "O")]
-            #print(begins)
-            #begins = [b for idx, b in enumerate(begins) if idx == 0 or ts[idx] != "O" or ts[idx - 1] != "O"]
-            #print(begins)
+            # print(begins)
+            # begins = [b for idx, b in enumerate(begins) if idx == 0 or ts[idx] != "O" or ts[idx - 1] != "O"]
+            # print(begins)
             ######################################
             if begins[0][0] != 0:
-                #print('warning: tags does begin with any of {}: \n{}\n{}'.format(begin_tags, sentence, ts))
+                # print('warning: tags does begin with any of {}: \n{}\n{}'.format(begin_tags, sentence, ts))
                 begins.insert(0, (0, 0))
 
             tokens_ = [(sentence[s:e], tag) for (s, tag), (e, _) in zip(begins[:-1], begins[1:])]

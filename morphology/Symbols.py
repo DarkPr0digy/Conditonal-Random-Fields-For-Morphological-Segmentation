@@ -1,6 +1,10 @@
 class Symbols:
     """Class contains symbols that are consistent across all input files"""
+
     def __init__(self):
+        """
+        Constructor for class
+        """
         self.arr = []
         self.arr.append([",", "_", "PUNCT", "_"])
         self.arr.append([".", "_", "PUNCT", "_"])

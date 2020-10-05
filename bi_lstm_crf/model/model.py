@@ -1,8 +1,8 @@
-import torch
 import torch.nn as nn
 from torch.nn.utils.rnn import pack_padded_sequence, pad_packed_sequence
-from torch.nn.modules.loss import CrossEntropyLoss
+
 from .crf import CRF
+
 
 class BiRnnCrf(nn.Module):
     def __init__(self, vocab_size, tagset_size, embedding_dim, hidden_dim, num_rnn_layers=1, rnn="lstm"):

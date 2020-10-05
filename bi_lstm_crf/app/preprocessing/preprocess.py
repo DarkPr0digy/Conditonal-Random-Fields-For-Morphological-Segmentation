@@ -1,7 +1,9 @@
 from os.path import join, exists
+
 import numpy as np
-from tqdm import tqdm
 import torch
+from tqdm import tqdm
+
 from bi_lstm_crf.app.preprocessing.utils import *
 
 FILE_VOCAB = "vocab.json"
